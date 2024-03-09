@@ -6,11 +6,12 @@ import slideItems from '../helpers/slideDate'
 
 const Container = styled.div`
 width: 100%;
-height: 100vh;
+height: 92vh;
 display: flex;
 position: relative;
 overflow: hidden;
 color: #31363F;
+
 `
 const Arrow = styled.div`
 width: 50px;
@@ -28,7 +29,7 @@ margin: auto;
 cursor: pointer;
 opacity: 0.8;
 z-index: 2;
-background-color: rgba(254, 254, 254, 0.5);
+background-color: rgba(254, 254, 254, 0.2);
 `
 
 const Wrapper = styled.div`
@@ -47,11 +48,13 @@ background-color: ${props => props.bg};
 `
 
 const ImageContainer = styled.div`
-flex: 1;
+flex: 0.5;
 height: 100%;
+
 `
 const Image = styled.img`
-height: 80%;
+height: 92%;
+
 `
 
 const InfoContainer = styled.div`
@@ -64,7 +67,7 @@ font-size: 70px;
 
 `
 const Description = styled.p`
-margin: 50px 0px;
+margin: 10px 0px 3rem 0rem;
 font-size: 20px;
 font-weight: 500;
 letter-spacing: 3px;

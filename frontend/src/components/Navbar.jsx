@@ -7,13 +7,16 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
 
 const Container = styled.div`
-height: 80px;
-background-color: lightgrey;
+height: 60px;
+background-color: rgba(240, 248, 255, 0.385);
 display: flex;
 align-items: center;
 text-align: center;
+backdrop-filter: blur(20px);
+position: sticky;
+color: #31363F;
 
-`;
+`
 
 const Wrapper = styled.div`
 width: 100vw;
@@ -22,6 +25,7 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 `
+
 const Left = styled.div`
 flex: 1;
 display: flex;
@@ -43,6 +47,8 @@ align-items: center;
 justify-content: center;
 margin-left: 10px;
 border-radius: 3px;
+padding: 0.1rem;
+
 `
 const Input = styled.input`
 border: none;

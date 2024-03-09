@@ -15,7 +15,7 @@ const slideItems = [
     img: img5,
     title: "Winter Sale",
     description: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
-    bg: "#9290C3"
+    bg: "#B5C0D0"
   },
   {
     id: 1,

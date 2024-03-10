@@ -1,6 +1,6 @@
-import img1 from '../assets/images/image1.png'
-import img5 from '../assets/images/image5.png'
-import img4 from '../assets/images/image4.png'
+import img1 from '../assets/modelsImage/image1.png'
+import img5 from '../assets/modelsImage/image5.png'
+import img4 from '../assets/modelsImage/image4.png'
 
 const slideItems = [
   {

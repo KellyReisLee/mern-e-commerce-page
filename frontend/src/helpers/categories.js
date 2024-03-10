@@ -1,6 +1,6 @@
-import image8 from '../assets/images/image8.jpg'
-import image7 from '../assets/images/image7.jpg'
-import image2 from '../assets/images/image2.png'
+import image8 from '../assets/modelsImage/image8.jpg'
+import image7 from '../assets/modelsImage/image7.jpg'
+import image2 from '../assets/modelsImage/image2.png'
 
 const categories = [
   {
@@ -14,7 +14,7 @@ const categories = [
     title: "CASUAL LOVE"
   },
   {
-    id: 1,
+    id: 3,
     img: image2,
     title: "LIGHT SUMMER"
   }

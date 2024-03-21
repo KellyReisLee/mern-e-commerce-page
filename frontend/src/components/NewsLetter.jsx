@@ -12,54 +12,58 @@ flex-direction: column;
 justify-content: center;
 align-items: center;
 background-color: #F5EEE6;
-gap: 0.8rem;
+
 color: #333;
 
 
 `
 
 const Title = styled.h1`
-font-size: 5rem;
+font-size: 4rem;
 `
 
-const Description = styled.h3`
-font-size: 2rem;
+const Description = styled.p`
+font-size: 1rem;
 font-weight: 300;
-margin-bottom: 1.7rem;
+margin-bottom: 2rem;
 letter-spacing: 1px;
+color: #333;
 `
 
 const InputContainer = styled.div`
 width: 50%;
-height: 80px;
-background-color: white;
+height: 40px;
+background-color: transparent;
 display: flex;
 justify-content: space-between;
-border: 1px solid lightgray;
 box-shadow: 32px 25px 34px -7px rgba(166,161,161,0.29);
 -webkit-box-shadow: 32px 25px 34px -7px rgba(166,161,161,0.29);
 -moz-box-shadow: 32px 25px 34px -7px rgba(166,161,161,0.29);
+border-bottom-right-radius: 10px;
+border-top-right-radius: 10px;
 `
 
 const Input = styled.input`
-flex: 8;
+flex: 7;
 height: 100%;
 border: none;
-border-bottom-left-radius: 10px;
-border-top-left-radius: 10px;
-padding: 0 1.7rem;
-font-size: 1.5rem;
+border: 1px solid lightgray;
+padding: 0 1rem;
+border-right: none;
+font-size: 0%.7;
 `
 
 const Button = styled.button`
-flex: 1.3;
-border-bottom-right-radius: 10px;
-border-top-right-radius: 10px;
+flex: 1.5;
 border: 1px solid lightgray;
 background-color: teal;
 color: white;
+cursor: pointer;
 
-
+&:hover{
+  color: teal;
+  background-color: lightgrey;
+}
 `
 
 const NewsLetter = () => {
@@ -70,7 +74,7 @@ const NewsLetter = () => {
       <InputContainer>
         <Input placeholder='Your email' />
         <Button>
-          <SendSharpIcon sx={{ fontSize: 40 }} />
+          <SendSharpIcon sx={{ fontSize: 24 }} />
         </Button>
       </InputContainer>
 

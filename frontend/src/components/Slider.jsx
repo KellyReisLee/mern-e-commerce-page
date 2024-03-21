@@ -44,7 +44,7 @@ display: flex;
 align-items: center;
 width: 100vw;
 height: 100vh;
-background-color: ${props => props.bg};
+background-color: #${props => props.bg};
 `
 
 const ImageContainer = styled.div`

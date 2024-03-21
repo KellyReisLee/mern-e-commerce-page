@@ -18,7 +18,7 @@ const slideItems = [
     bg: "#B5C0D0"
   },
   {
-    id: 1,
+    id: 3,
     img: img4,
     title: "POPULAR Sale",
     description: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",

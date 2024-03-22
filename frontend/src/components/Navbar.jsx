@@ -7,14 +7,18 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
 
 const Container = styled.div`
-height: 70px;
-background-color: rgba(240, 248, 255, 0.385);
+height: 80px;
+background-color: rgba(240, 248, 255, 0.4);
 display: flex;
 align-items: center;
 text-align: center;
 backdrop-filter: blur(20px);
 position: sticky;
 color: #31363F;
+border-bottom: 6px solid teal;
+position: sticky;
+top: 0;
+z-index: 10;
 
 `
 
@@ -41,7 +45,7 @@ cursor: pointer;
 const SearchContainer = styled.div`
 gap: 0.2rem;
 font-size: 14px;
-border: 1px solid gray;
+border: 1px solid lightgray;
 display: flex;
 align-items: center;
 justify-content: center;
@@ -61,6 +65,7 @@ text-align: center;
 `
 const Logo = styled.h1`
 font-weight: bold;
+color: #555;
 
 `
 

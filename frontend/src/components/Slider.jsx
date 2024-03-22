@@ -44,7 +44,7 @@ display: flex;
 align-items: center;
 width: 100vw;
 height: 100vh;
-background-color: #${props => props.bg};
+background-color: ${props => props.bg};
 `
 
 const ImageContainer = styled.div`
@@ -81,6 +81,14 @@ cursor: pointer;
 color: #35374B;
 border: 2px solid #35374B;
 border-radius: 10px;
+transition: all 0.5s ease;
+
+
+&:hover{
+  box-shadow: 7px 6px 10px -3px rgba(196,195,195,0.75);
+-webkit-box-shadow: 7px 6px 10px -3px rgba(196,195,195,0.75);
+-moz-box-shadow: 7px 6px 10px -3px rgba(196,195,195,0.75);
+}
 
 `
 const Slider = () => {

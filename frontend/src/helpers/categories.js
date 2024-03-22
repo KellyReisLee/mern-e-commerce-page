@@ -1,11 +1,11 @@
-import image8 from '../assets/modelsImage/image8.jpg'
+import image9 from '../assets/modelsImage/image9.png'
 import image7 from '../assets/modelsImage/image7.jpg'
 import image2 from '../assets/modelsImage/image2.png'
 
 const categories = [
   {
     id: 1,
-    img: image8,
+    img: image9,
     title: "NEW STYLE"
   },
   {

@@ -19,7 +19,9 @@ color: #333;
 `
 
 const Title = styled.h1`
-font-size: 4rem;
+font-size: 3.5rem;
+color: #555;
+margin-bottom: 0.3rem;
 `
 
 const Description = styled.p`

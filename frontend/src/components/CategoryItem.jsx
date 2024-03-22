@@ -1,6 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
 
+
+const Image = styled.img`
+width: 100%;
+height: 100%;
+object-fit: cover;
+transition: all 1.5s ease;
+
+`
+
+
+
 const Container = styled.div`
 flex: 1;
 margin: 5px;
@@ -8,14 +19,7 @@ height:70vh ;
 position: relative;
 
 `
-const Image = styled.img`
-width: 100%;
-height: 100%;
-object-fit: cover;
-transition: all 1.5s ease;
-filter: brightness(50%);
 
-`
 const Info = styled.div`
 position: absolute;
 top: 0;
@@ -28,38 +32,62 @@ justify-content: center;
 flex-direction: column;
 
 
+
+`
+
+const WhiteCard = styled.div`
+background-color:  rgba(240, 248, 240, 0.4);
+padding: 1.6rem 2rem;
+border-radius: 10px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+backdrop-filter: blur(20px);
+
 `
 const Title = styled.h1`
 font-size: 2rem;
-color: #FEFAE0;
+color: #444;
 font-weight: 900;
-
-
 
 `
 
 const Button = styled.button`
-padding: 0.6rem 1rem;
+padding: 0.7rem 1.5rem;
 border: none;
-font-size: 0.9rem;
+font-size: 1rem;
 border-radius: 5px;
-color: #31363F;
+color: #FEFAE0;
 cursor: pointer;
-margin-top: 0.8rem;
-background-color: #FEFAE0;
+margin-top: 1.1rem;
+background-color: teal;
+cursor: pointer;
+transition: all 0.3s ease-in;
+letter-spacing: 0.8px;
+
+
+&:hover{
+  transform: scale(1.1);
+  color: teal;
+  background-color:  #FEFAE0;
+  font-weight: 600;
+ 
+}
+
 
 `
 
-const ContainerText = styled.div`
-`
 
 const CategoryItem = ({ item }) => {
   return (
     <Container>
       <Image src={item.img} />
       <Info>
-        <Title>{item.title}</Title>
-        <Button>Show Now</Button>
+        <WhiteCard>
+          <Title>{item.title}</Title>
+          <Button>Show Now</Button>
+        </WhiteCard>
       </Info>
     </Container>
   )

@@ -12,28 +12,29 @@ const Container = styled.div`
 display: flex;
 width: 100%;
 height: 20%;
+background-color: #016A70;
+color: #FFF9F9;
 
 `
 const Left = styled.div`
 flex: 1;
 display: flex;
 flex-direction: column;
-background-color: lightblue;
 padding: 2rem ;
 
 `
 
 const Logo = styled.h1`
 font-size: 3rem;
-color: #222;
+
 
 `
 
 const Desc = styled.p`
  font-family: "Poppins", sans-serif;
  margin: 10px 0 30px 0;
- font-size: 0.7rem;
- color: #333;
+ font-size: 0.8rem;
+
  
 `
 
@@ -43,29 +44,34 @@ gap: 1.2rem;
 `
 
 const SocialIcon = styled.div`
-width: 40px;
-height: 40px;
-color: white;
-background-color: ${props => props.color};
+width: 50px;
+height: 50px;
+background-color: teal;
 display: flex;
 justify-content: center;
 align-items: center;
 border-radius: 50%;
 
+
+&:hover{
+  background-color: #FFF9F9;
+  color: teal;
+  transform: scale(1.1);
+}
 `
 
 const Center = styled.div`
 flex: 1;
 padding: 2rem;
-background-color: lightpink;
+
 `
 
 const Title = styled.h2`
 margin-bottom: 26px;
 letter-spacing: 1px;
 font-size: 1.3rem;
-font-family: "Poppins", sans-serif;
-color: #333;
+font-family: "Urbanist", sans-serif;
+
 `
 
 const List = styled.ul`
@@ -78,21 +84,20 @@ flex-wrap: wrap;
 `
 
 const ListItem = styled.li`
-font-size: 0.8rem;
+font-size: 0.9rem;
 width: 50%;
 margin-bottom: 13px;
-color: #333;
+font-family: "Urbanist", sans-serif;
 `
 const Right = styled.div`
 flex: 1;
 display: flex;
 flex-direction: column;
 padding: 2rem;
-background-color: lightgreen;
 align-items: flex-start;
 gap: 5px;
 font-size: 1rem;
-font-family: "Poppins", sans-serif;
+font-family: "Urbanist", sans-serif;
 `
 
 const ContactItem = styled.div`
@@ -101,8 +106,7 @@ display: flex;
 justify-content: center;
 align-items: center;
 gap: 1px;
-font-size: 0.73rem;
-color: #333;
+font-size: 0.9rem;
 letter-spacing: 0.6px;
 
 `
@@ -120,16 +124,16 @@ const Footer = () => {
         <Logo>Urban</Logo>
         <Desc>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </Desc>
         <SocialContainer >
-          <SocialIcon sx={{ fontSize: 40 }} color="#387ADF">
+          <SocialIcon  >
             <FacebookOutlinedIcon />
           </SocialIcon>
-          <SocialIcon sx={{ fontSize: 40 }} color="#FF004D">
+          <SocialIcon  >
             <InstagramIcon />
           </SocialIcon>
-          <SocialIcon sx={{ fontSize: 40 }} color="#50C4ED">
+          <SocialIcon  >
             <TwitterIcon />
           </SocialIcon>
-          <SocialIcon sx={{ fontSize: 40 }} color="#820300" >
+          <SocialIcon >
             <PinterestIcon />
           </SocialIcon>
         </SocialContainer>

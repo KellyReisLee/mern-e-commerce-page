@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { mobile } from '../responsive'
 
 
 const Image = styled.img`
@@ -7,16 +8,17 @@ width: 100%;
 height: 100%;
 object-fit: cover;
 transition: all 1.5s ease;
+${mobile({ height: '30vh', objectPosition: 'right top' })}
 
 `
-
-
 
 const Container = styled.div`
 flex: 1;
 margin: 5px;
 height:70vh ;
 position: relative;
+${mobile({ height: '30vh', })}
+
 
 `
 
@@ -33,6 +35,8 @@ flex-direction: column;
 
 
 
+
+
 `
 
 const WhiteCard = styled.div`
@@ -44,12 +48,14 @@ flex-direction: column;
 justify-content: center;
 align-items: center;
 backdrop-filter: blur(20px);
+${mobile({ height: '14vh' })}
 
 `
 const Title = styled.h1`
 font-size: 2rem;
 color: #444;
 font-weight: 900;
+${mobile({ fontSize: '1rem' })}
 
 `
 
@@ -65,6 +71,7 @@ background-color: teal;
 cursor: pointer;
 transition: all 0.3s ease-in;
 letter-spacing: 0.8px;
+${mobile({ padding: '0.4rem 0.7rem', fontSize: '0.6rem', marginTop: '0.5rem', fontWeight: '300' })}
 
 
 &:hover{

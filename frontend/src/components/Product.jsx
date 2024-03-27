@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-
+import { mobile } from '../responsive'
 
 const Info = styled.div`
 opacity: 0;
@@ -19,6 +19,7 @@ justify-content: center;
 align-items: center;
 gap: 0.4rem;
 transition: all 0.5s ease;
+${mobile({ display: 'flex', padding: '0px' })}
 `
 
 const Container = styled.div`
@@ -29,7 +30,7 @@ height: 350px;
 display: flex;
 align-items: center;
 justify-content: center;
-background-color: #f5fbfa;
+background-color: #CCD3CA;
 position: relative;
 cursor: pointer;
 border-radius: 10px;

@@ -2,9 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import SearchIcon from '@mui/icons-material/Search';
 import Badge from '@mui/material/Badge';
-import MailIcon from '@mui/icons-material/Mail';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-
+import { mobile } from '../responsive'
 
 const Container = styled.div`
 height: 80px;
@@ -19,6 +18,7 @@ border-bottom: 6px solid teal;
 position: sticky;
 top: 0;
 z-index: 10;
+${mobile({ height: '60px' })}
 
 `
 
@@ -28,6 +28,7 @@ padding: 10px 20px;
 display: flex;
 justify-content: space-between;
 align-items: center;
+${mobile({ padding: '0px 10px 0px 0px' })}
 `
 
 const Left = styled.div`
@@ -40,6 +41,7 @@ align-items: center;
 const Language = styled.span`
 font-size: 14px;
 cursor: pointer;
+${mobile({ display: 'none' })}
 `
 
 const SearchContainer = styled.div`
@@ -57,15 +59,20 @@ padding: 0.1rem;
 const Input = styled.input`
 border: none;
 padding: 0.3rem;
+${mobile({ width: "50px" })}
+
 `
 
 const Center = styled.div`
 flex: 2;
 text-align: center;
 `
+
+
 const Logo = styled.h1`
 font-weight: bold;
 color: #555;
+${mobile({ fontSize: "20px" })}
 
 `
 
@@ -74,6 +81,7 @@ flex: 1;
 display: flex;
 align-items: center;
 justify-content: flex-end;
+${mobile({ flex: 3, justifyContent: "center", marginLeft: '0px', })}
 
 `
 
@@ -82,7 +90,10 @@ const MenuItem = styled.div`
 font-size: 14px;
 cursor: pointer;
 margin-right: 1rem;
-`
+${mobile({
+  width: "28% ", fontSize: '9px', marginRight: '0px'
+})}
+    `
 
 const Navbar = () => {
   return (
@@ -91,7 +102,7 @@ const Navbar = () => {
         <Left>
           <Language>EN</Language>
           <SearchContainer>
-            <Input />
+            <Input placeholder='Search' />
             <SearchIcon style={{ color: "gray", fontSize: 16 }} />
           </SearchContainer>
         </Left>
@@ -104,7 +115,7 @@ const Navbar = () => {
           </MenuItem>
           <MenuItem>SIGN IN</MenuItem>
           <MenuItem>
-            <Badge badgeContent={4} color="warning">
+            <Badge badgeContent={4} color="warning" >
               <ShoppingCartOutlinedIcon color="action" />
             </Badge>
           </MenuItem>

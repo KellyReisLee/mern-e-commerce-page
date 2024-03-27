@@ -7,6 +7,7 @@ import PinterestIcon from '@mui/icons-material/Pinterest';
 import PlaceIcon from '@mui/icons-material/Place';
 import PhoneEnabledIcon from '@mui/icons-material/PhoneEnabled';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import { mobile } from '../responsive'
 
 const Container = styled.div`
 display: flex;
@@ -14,6 +15,7 @@ width: 100%;
 height: 20%;
 background-color: #016A70;
 color: #FFF9F9;
+${mobile({ flexDirection: 'column', backgroundColor: '#eee', color: '#666' })}
 
 `
 const Left = styled.div`
@@ -21,11 +23,13 @@ flex: 1;
 display: flex;
 flex-direction: column;
 padding: 2rem ;
+${mobile({ padding: '1.2rem' })}
 
 `
 
 const Logo = styled.h1`
 font-size: 3rem;
+${mobile({ fontSize: '1.7rem', color: ' #016A70' })}
 
 
 `
@@ -34,6 +38,7 @@ const Desc = styled.p`
  font-family: "Poppins", sans-serif;
  margin: 10px 0 30px 0;
  font-size: 0.8rem;
+ ${mobile({ fontSize: '0.68rem' })}
 
  
 `
@@ -51,6 +56,7 @@ display: flex;
 justify-content: center;
 align-items: center;
 border-radius: 50%;
+${mobile({ width: '30px', height: '30px', color: '#016A70', backgroundColor: '#eee' })}
 
 
 &:hover{
@@ -63,6 +69,7 @@ border-radius: 50%;
 const Center = styled.div`
 flex: 1;
 padding: 2rem;
+${mobile({ display: 'none' })}
 
 `
 
@@ -71,6 +78,7 @@ margin-bottom: 26px;
 letter-spacing: 1px;
 font-size: 1.3rem;
 font-family: "Urbanist", sans-serif;
+${mobile({ fontSize: '1.2rem' })}
 
 `
 
@@ -98,6 +106,8 @@ align-items: flex-start;
 gap: 5px;
 font-size: 1rem;
 font-family: "Urbanist", sans-serif;
+${mobile({ backgroundColor: ' #016A70', padding: '1rem', color: '#F2F1EB' })}
+
 `
 
 const ContactItem = styled.div`
@@ -108,6 +118,7 @@ align-items: center;
 gap: 1px;
 font-size: 0.9rem;
 letter-spacing: 0.6px;
+${mobile({ marginBottom: '1rem' })}
 
 `
 

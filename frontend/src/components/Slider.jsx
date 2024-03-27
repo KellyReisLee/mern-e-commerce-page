@@ -3,6 +3,7 @@ import { useState } from 'react'
 import ArrowBackIosNewOutlinedIcon from '@mui/icons-material/ArrowBackIosNewOutlined';
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 import slideItems from '../helpers/slideDate'
+import { mobile } from '../responsive'
 
 const Container = styled.div`
 width: 100%;
@@ -11,6 +12,7 @@ display: flex;
 position: relative;
 overflow: hidden;
 color: #31363F;
+${mobile({ display: 'none' })}
 
 `
 const Arrow = styled.div`

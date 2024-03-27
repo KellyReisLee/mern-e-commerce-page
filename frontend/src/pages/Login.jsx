@@ -12,7 +12,10 @@ align-items: center;
 justify-content: center;
 flex-direction: column;
 background-size: cover;
+
 `
+
+
 const Wrapper = styled.div`
 width: 30%;
 background-color: white;
@@ -21,6 +24,7 @@ padding: 30px;
 const Title = styled.h1`
 font-size: 25px;
 font-weight: 300;
+
 
 `
 const Form = styled.form`
@@ -31,7 +35,7 @@ flex-direction: column;
 const Input = styled.input`
 flex: 1;
 min-width: 100%;
-margin: 15px 10px 0px 0px;
+margin: 10px 10px 0px 0px;
 padding: 10px;
 `
 

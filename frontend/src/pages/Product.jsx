@@ -42,7 +42,7 @@ font-size: 50px;
 const FilterContainer = styled.div`
 margin: 30px 0px;
 display: flex;
-justify-content: space-around;
+justify-content: space-between;
 
 `
 const Filter = styled.div`
@@ -70,12 +70,54 @@ margin-left: 5px;
 padding: 2px 3px;
 cursor: pointer;
 
-
-
 `
 const FilterSizeOption = styled.option`
+  `
+const AddContainer = styled.div`
+ width: 50%;
+  display: flex;
+  align-items: center;
+  
+  gap: 1rem;
+ 
+`;
+
+const AmountContainer = styled.div`
+
+ display: flex;
+  align-items: center;
+  font-weight: 700;
 
 `;
+const Remove = styled.option`
+`;
+const Amount = styled.span`
+width: 32px;
+height: 32px;
+border-radius: 10px;
+border: 1px solid teal;
+display: flex;
+align-items: center;
+justify-content: center;
+margin: 0px 5px;
+
+`;
+const Add = styled.span`
+`;
+
+const Button = styled.button`
+padding: 15px;
+border: 1px solid teal;
+background-color: white;
+cursor: pointer;
+font-weight: 500;
+
+&:hover{
+      background-color: #f8f4f4;
+  }
+`;
+
+
 
 
 
@@ -111,11 +153,18 @@ const Product = () => {
                 <FilterSizeOption>XL</FilterSizeOption>
               </FilterSize>
             </Filter>
-
           </FilterContainer>
+          {/* Add container */}
+          <AddContainer>
+            <AmountContainer>
+              <Remove>-</Remove>
+              <Amount>20</Amount>
+              <Add>+</Add>
+            </AmountContainer>
+            <Button>ADD TO CART</Button>
+          </AddContainer>
         </InfoContainer>
       </Wrapper>
-
 
       <NewsLetter />
       <Footer />

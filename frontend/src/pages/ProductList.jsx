@@ -5,13 +5,17 @@ import Anouncement from '../components/Announcement'
 import Products from '../components/Products'
 import NewsLetter from '../components/NewsLetter'
 import Footer from '../components/Footer'
-
+import { mobile } from '../responsive'
 
 const Container = styled.div``
 const Title = styled.h1`
 margin: 20px;
+color: #555;
+${mobile({ textAlign: 'center' })}
 
 `
+
+
 const FilterContainer = styled.div`
 display: flex;
 justify-content: space-between;
@@ -19,17 +23,22 @@ justify-content: space-between;
 `
 const Filter = styled.div`
 margin: 20px;
+
 `
 
 const FilterText = styled.span`
 font-size: 20px;
 font-weight: 600;
 margin-right: 10px;
+color: #555;
+${mobile({ fontSize: '1rem', marginBottom: '0.3rem' })}
 `
 
 const Select = styled.select`
 padding: 10px;
 margin-right: 10px;
+color: #555;
+${mobile({ padding: '5px', marginTop: '0.1rem', })}
 
 `
 const Option = styled.option``

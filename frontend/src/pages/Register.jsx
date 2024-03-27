@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-
+import { mobile } from '../responsive'
 
 const Container = styled.div`
 width: 100vw;
@@ -12,10 +12,13 @@ align-items: center;
 justify-content: center;
 flex-direction: column;
 `
+
+
 const Wrapper = styled.div`
 width: 40%;
 background-color: white;
 padding: 20px;
+${mobile({ width: '75%' })}
 
 
 
@@ -36,6 +39,8 @@ flex: 1;
 min-width: 40%;
 margin: 15px 10px 0px 0px;
 padding: 10px;
+${mobile({ minWidth: '100%', margin: '7px 2px 0px 0px;' })}
+
 `
 const Agreement = styled.span`
 font-size: 12px;

@@ -7,8 +7,11 @@ import { mobile } from '../responsive'
 
 const Container = styled.div`
 padding: 20px;
-display: flex;
-${mobile({ display: 'block' })}
+display: grid;
+overflow: hidden;
+grid-template-columns: repeat(2, 1fr);
+gap: 1.5rem ;
+${mobile({ display: 'grid', gridTemplateColumns: 'repeat(1, 1fr)' })}
 
 `
 

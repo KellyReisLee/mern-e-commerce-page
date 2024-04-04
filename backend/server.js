@@ -5,12 +5,15 @@ const dotenv = require('dotenv')
 dotenv.config()
 const userRoutes = require('./routes/userRoute')
 const authRoutes = require('./routes/authRoute')
+const productRoutes = require('./routes/productRoute')
+
 
 
 
 app.use(express.json())
 app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
+app.use('/api/products', productRoutes)
 
 
 mongoose.connect(process.env.MONGO_URL).then(() => {

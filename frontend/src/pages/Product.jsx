@@ -1,10 +1,13 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Navbar from '../components/Navbar'
 import Anouncement from '../components/Announcement'
 import NewsLetter from '../components/NewsLetter'
 import Footer from '../components/Footer'
 import { mobile } from '../responsive'
+import { useParams } from 'react-router-dom'
+import axios from 'axios'
+import { Skeleton, Stack } from '@mui/material'
 
 
 const Container = styled.div``
@@ -139,60 +142,129 @@ ${mobile({ padding: '5px 15px', })}
   }
 `;
 
+const ContainerSkeletonHorizontal = styled.div`
+width: 100%;
+height: 30vh;
+display: flex;
+gap: 1rem;
+${mobile({ padding: '5px 15px', flexDirection: 'column' })}
 
-
-
+`
+const ContainerSkeletonVertical = styled.div`
+width: 100%;
+height: 50vh;
+display: flex;
+flex-direction: column;
+gap: 1rem;
+`
 
 const Product = () => {
+  const { id } = useParams();
+  const [product, setProduct] = useState({})
+  const [quantity, setQuantity] = useState(1)
+  const [color, setColor] = useState("")
+  const [size, setSize] = useState("")
+
+
+
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await axios.get(`api/products/find/${id}`)
+        console.log(res.data.color);
+        setProduct(res.data)
+
+      } catch (error) {
+
+      }
+    }
+    getProduct()
+  }, [id])
+  console.log(id);
+  console.log(color, size, quantity);
+
+  const hanndleQuantity = (type) => {
+    if (type === 'inc' && quantity >= 1) {
+      setQuantity((prev) => prev + 1)
+    } else if (type === 'dec' && quantity > 1) {
+      setQuantity((prev) => prev - 1)
+    }
+
+  }
+
+
+  const handleClick = () => {
+
+  }
+
   return (
-    <Container>
-      <Anouncement />
-      <Navbar />
-      <Wrapper>
-        <ImgContainer>
-          <Image src="https://www.pngarts.com/files/3/Women-Jacket-PNG-High-Quality-Image.png" />
-        </ImgContainer>
-        <InfoContainer>
-          <Title>Lorem ipsum is placeholder text</Title>
-          <Description>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</Description>
-          <Price>$ 20</Price>
-          <FilterContainer>
-            {/* color */}
-            <Filter>
-              <FilterTitle>Color: </FilterTitle>
-              <FilterColor color='black' />
-              <FilterColor color='darkblue' />
-              <FilterColor color='gray' />
-            </Filter>
-            {/* Size */}
-            <Filter>
-              <FilterTitle  >Size</FilterTitle>
-              <FilterSize defaultValue="Size">
-                <FilterSizeOption disabled>Size</FilterSizeOption>
-                <FilterSizeOption value="XS">XS</FilterSizeOption>
-                <FilterSizeOption value="S">S</FilterSizeOption>
-                <FilterSizeOption value="M">M</FilterSizeOption>
-                <FilterSizeOption value="L">L</FilterSizeOption>
-                <FilterSizeOption value="XL">XL</FilterSizeOption>
-              </FilterSize>
+    <>
+      <Container>
+        <Anouncement />
+        <Navbar />
+        <Wrapper>
+          {Object.keys(product).length === 0 ? (
+            <ContainerSkeletonHorizontal>
+              <Skeleton variant="rounded" sx={{ width: '50%', height: '100%', bgcolor: 'grey.400' }} />
+              <ContainerSkeletonVertical  >
+                <Skeleton variant="rectangular" sx={{ width: '100%' }} />
+                <Skeleton variant="rectangular" sx={{ width: '100%' }} />
+                <Skeleton variant="square" width={100} height={30} />
+                <Skeleton variant="rectangular" sx={{ width: '100%' }} />
+                <Skeleton variant="rectangular" sx={{ width: '100%' }} />
 
-            </Filter>
-          </FilterContainer>
-          {/* Add container */}
-          <AddContainer>
-            <AmountContainer>
-              <Remove>-</Remove>
-              <Amount>20</Amount>
-              <Add>+</Add>
-            </AmountContainer>
-            <Button>ADD TO CART</Button>
-          </AddContainer>
-        </InfoContainer>
-      </Wrapper>
+              </ContainerSkeletonVertical>
 
-      <NewsLetter />
-      <Footer />
-    </Container>
+            </ContainerSkeletonHorizontal>
+          ) : (
+            <>
+              <ImgContainer>
+                <Image src={product.image} />
+              </ImgContainer>
+              <InfoContainer>
+                <Title>{product.title}</Title>
+                <Description>{product.description}</Description>
+                <Price>{product.price}</Price>
+                <FilterContainer>
+                  {/* color */}
+                  <Filter>
+                    <FilterTitle>Color: </FilterTitle>
+                    {product.color?.map((c) => (
+                      <FilterColor onClick={() => setColor(c)} key={c} color={c} />
+                    ))}
+
+                  </Filter>
+                  {/* Size */}
+                  <Filter>
+                    <FilterTitle>Size: </FilterTitle>
+                    <FilterSize onChange={(e) => setSize(e.target.value)} defaultValue="Size" >
+                      {product.size?.map((s) => (
+                        <FilterSizeOption key={s}  >{s}</FilterSizeOption>
+                      ))}
+
+                    </FilterSize>
+
+                  </Filter>
+                </FilterContainer>
+                {/* Add container */}
+                <AddContainer>
+                  <AmountContainer>
+                    <Remove onClick={() => hanndleQuantity('dec')} >-</Remove>
+                    <Amount>{quantity}</Amount>
+                    <Add onClick={() => hanndleQuantity('inc')} >+</Add>
+                  </AmountContainer>
+                  <Button onClick={handleClick}>ADD TO CART</Button>
+                </AddContainer>
+              </InfoContainer>
+            </>
+          )
+          }
+
+        </Wrapper>
+        <NewsLetter />
+        <Footer />
+      </Container>
+    </>
   )
 }
 

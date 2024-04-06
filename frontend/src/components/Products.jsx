@@ -3,6 +3,8 @@ import popularProducts from '../helpers/products'
 import styled from 'styled-components'
 import Product from './Product'
 import { mobile } from '../responsive'
+import axios from 'axios'
+import { useState, useEffect } from 'react'
 
 
 const Container = styled.div`
@@ -16,13 +18,66 @@ ${mobile({ display: 'grid', gridTemplateColumns: 'repeat(1, 1fr)' })}
 `
 
 
-const Products = () => {
+const Products = ({ category, filters, sort }) => {
+  const [products, setProducts] = useState([]);
+  const [filterProducts, setFilterProducts] = useState([]);
+
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get(category ? `api/products?category=${category}` : 'api/products')
+        console.log(res.data);
+        setProducts(res.data)
+      } catch (error) {
+
+      }
+
+    }
+    fetchProducts()
+  }, [category])
+
+
+
+  useEffect(() => {
+    if (category) {
+      setFilterProducts(
+        products.filter((item) =>
+          Object.entries(filters).every(([key, value]) =>
+            item[key].includes(value)
+          )
+        )
+      );
+    } else {
+      setFilterProducts(products)
+    }
+
+
+
+  }, [category, filters, products])
+
+
+  useEffect(() => {
+
+    if (sort === 'newest') {
+      setFilterProducts((prev) => [...prev].sort((a, b) => a.createdAt - b.createdAt))
+    } else if (sort === 'asc') {
+      setFilterProducts((prev) => [...prev].sort((a, b) => a.price - b.price))
+    } else {
+      setFilterProducts((prev) => [...prev].sort((a, b) => b.price - a.price))
+    }
+
+
+
+
+  }, [sort])
+
+
   return (
     <Container>
-      {popularProducts.map((item) => (
+      {filterProducts.map((item) => (
         <Product key={item.id} item={item} />
       ))}
-
     </Container>
   )
 }

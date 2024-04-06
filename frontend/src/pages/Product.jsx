@@ -166,14 +166,16 @@ const Product = () => {
             </Filter>
             {/* Size */}
             <Filter>
-              <FilterTitle >Size</FilterTitle>
-              <FilterSize >
-                <FilterSizeOption>XS</FilterSizeOption>
-                <FilterSizeOption>S</FilterSizeOption>
-                <FilterSizeOption>M</FilterSizeOption>
-                <FilterSizeOption>L</FilterSizeOption>
-                <FilterSizeOption>XL</FilterSizeOption>
+              <FilterTitle  >Size</FilterTitle>
+              <FilterSize defaultValue="Size">
+                <FilterSizeOption disabled>Size</FilterSizeOption>
+                <FilterSizeOption value="XS">XS</FilterSizeOption>
+                <FilterSizeOption value="S">S</FilterSizeOption>
+                <FilterSizeOption value="M">M</FilterSizeOption>
+                <FilterSizeOption value="L">L</FilterSizeOption>
+                <FilterSizeOption value="XL">XL</FilterSizeOption>
               </FilterSize>
+
             </Filter>
           </FilterContainer>
           {/* Add container */}

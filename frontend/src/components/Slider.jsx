@@ -4,6 +4,7 @@ import ArrowBackIosNewOutlinedIcon from '@mui/icons-material/ArrowBackIosNewOutl
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 import slideItems from '../helpers/slideDate'
 import { mobile } from '../responsive'
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
 width: 100%;
@@ -92,6 +93,12 @@ transition: all 0.5s ease;
 -moz-box-shadow: 7px 6px 10px -3px rgba(196,195,195,0.75);
 }
 
+& a{
+  color: #333;
+  text-decoration: none;
+
+}
+
 `
 const Slider = () => {
   const [slideIndex, setSlideIndex] = useState(0);
@@ -119,7 +126,9 @@ const Slider = () => {
               <InfoContainer>
                 <Title>{item.title}</Title>
                 <Description>{item.description}</Description>
-                <Button>Show Now</Button>
+                <Button>
+                  <Link to="/products">Show Now</Link>
+                </Button>
               </InfoContainer>
             </SlideContainer>
 

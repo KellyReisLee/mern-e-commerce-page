@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
+import { Link } from 'react-router-dom';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { mobile } from '../responsive'
@@ -18,6 +19,7 @@ z-index: 3;
 display: flex;
 justify-content: center;
 align-items: center;
+gap: 0.8rem;
 transition: all 0.5s ease;
 ${mobile({ display: 'flex', padding: '0px' })}
 `
@@ -33,9 +35,6 @@ background-color: #CCD3CA;
 position: relative;
 cursor: pointer;
 border-radius: 10px;
-
-
-
 
 &:hover ${Info}{
   opacity: 1;
@@ -68,10 +67,10 @@ width: 40px;
 height: 40px;
 border-radius: 50%;
 background-color: white;
+color: teal;
 display: flex;
 justify-content: center;
 align-items: center;
-color: teal;
 transition: all 0.5s ease;
 
 &:hover{
@@ -82,20 +81,26 @@ transition: all 0.5s ease;
   
 }
 
+
+
 `
 
 const Product = ({ item }) => {
   return (
     <Container>
       <Circle />
-      <Image src={item.img} />
+      <Image src={item.image} />
       <Info>
         <Icon>
           <FavoriteBorderRoundedIcon />
         </Icon>
-        <Icon>
-          <SearchRoundedIcon />
-        </Icon>
+        <Link to={`/product/${item._id}`}>
+
+          <Icon>
+            <SearchRoundedIcon />
+
+          </Icon>
+        </Link>
         <Icon>
           <ShoppingCartOutlinedIcon />
         </Icon>

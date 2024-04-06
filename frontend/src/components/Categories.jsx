@@ -4,6 +4,7 @@ import categories from '../helpers/categories'
 import CategoryItem from './CategoryItem'
 import { mobile } from '../responsive'
 
+
 const Container = styled.div`
 width: 100%;
 height: 100vh;

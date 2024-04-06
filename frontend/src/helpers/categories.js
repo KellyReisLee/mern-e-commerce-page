@@ -6,17 +6,20 @@ const categories = [
   {
     id: 1,
     img: image9,
-    title: "NEW STYLE"
+    title: "NEW STYLE",
+    category: "women"
   },
   {
     id: 2,
     img: image7,
-    title: "CASUAL LOVE"
+    title: "CASUAL LOVE",
+    category: "casual"
   },
   {
     id: 3,
     img: image2,
-    title: "LIGHT SUMMER"
+    title: "LIGHT SUMMER",
+    category: "summer"
   }
 ]
 

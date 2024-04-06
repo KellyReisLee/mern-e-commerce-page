@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { mobile } from '../responsive'
+import { Link } from 'react-router-dom'
 
 
 const Image = styled.img`
@@ -32,11 +33,6 @@ display: flex;
 align-items: center;
 justify-content: center;
 flex-direction: column;
-
-
-
-
-
 `
 
 const WhiteCard = styled.div`
@@ -49,14 +45,12 @@ justify-content: center;
 align-items: center;
 backdrop-filter: blur(20px);
 ${mobile({ height: '14vh' })}
-
 `
 const Title = styled.h1`
 font-size: 2rem;
 color: #444;
 font-weight: 900;
 ${mobile({ fontSize: '1rem' })}
-
 `
 
 const Button = styled.button`
@@ -82,6 +76,11 @@ ${mobile({ padding: '0.4rem 0.7rem', fontSize: '0.6rem', marginTop: '0.5rem', fo
  
 }
 
+& a{
+  color: #FEFAE0;
+  text-decoration: none;
+}
+
 
 `
 
@@ -93,10 +92,12 @@ const CategoryItem = ({ item }) => {
       <Info>
         <WhiteCard>
           <Title>{item.title}</Title>
-          <Button>Show Now</Button>
+          <Button>
+            <Link to={`/products/${item.category}`}>Show Now</Link>
+          </Button>
         </WhiteCard>
       </Info>
-    </Container>
+    </Container >
   )
 }
 

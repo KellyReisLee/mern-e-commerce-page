@@ -9,11 +9,12 @@ const productRoutes = require('./routes/productRoute')
 const cartRoutes = require('./routes/cartRoute')
 const orderRoutes = require('./routes/orderRoute')
 
-
-
-
-
+const cors = require('cors');
+app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
+app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+
+
 app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/products', productRoutes)

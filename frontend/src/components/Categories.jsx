@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import categories from '../helpers/categories'
 import CategoryItem from './CategoryItem'

@@ -68,18 +68,18 @@ letter-spacing: 0.8px;
 ${mobile({ padding: '0.4rem 0.7rem', fontSize: '0.6rem', marginTop: '0.5rem', fontWeight: '300' })}
 
 
+
 &:hover{
   transform: scale(1.1);
-  color: teal;
-  background-color:  #FEFAE0;
-  font-weight: 600;
  
 }
 
-& a{
+& a,  a:visited, a:active{
   color: #FEFAE0;
   text-decoration: none;
 }
+
+
 
 
 `

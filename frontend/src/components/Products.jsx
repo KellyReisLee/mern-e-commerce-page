@@ -58,7 +58,6 @@ const Products = ({ category, filters, sort }) => {
 
 
   useEffect(() => {
-
     if (sort === 'newest') {
       setFilterProducts((prev) => [...prev].sort((a, b) => a.createdAt - b.createdAt))
     } else if (sort === 'asc') {
@@ -73,10 +72,11 @@ const Products = ({ category, filters, sort }) => {
   }, [sort])
 
 
+  console.log(filterProducts);
   return (
     <Container>
       {filterProducts.map((item) => (
-        <Product key={item.id} item={item} />
+        <Product key={item._id} item={item} />
       ))}
     </Container>
   )

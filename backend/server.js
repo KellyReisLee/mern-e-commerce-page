@@ -8,6 +8,8 @@ const authRoutes = require('./routes/authRoute')
 const productRoutes = require('./routes/productRoute')
 const cartRoutes = require('./routes/cartRoute')
 const orderRoutes = require('./routes/orderRoute')
+const stripeRoute = require('./routes/stripeRoute')
+
 
 const cors = require('cors');
 app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
@@ -20,6 +22,7 @@ app.use('/api/users', userRoutes)
 app.use('/api/products', productRoutes)
 app.use("/api/carts", cartRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/checkout", stripeRoute);
 
 
 

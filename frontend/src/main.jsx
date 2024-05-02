@@ -9,10 +9,12 @@ import Product from './pages/Product'
 import ProductList from './pages/ProductList'
 import Register from './pages/Register'
 import ErrorPage from './pages/ErrorPage.jsx'
+import WishPage from './pages/WishPage.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import axios from 'axios'
 import { Provider } from 'react-redux'
 import store from './redux/store.js'
+
 
 
 
@@ -32,7 +34,8 @@ const router = createBrowserRouter([
       { path: 'product/:id', element: <Product /> },
       { path: 'products/:category', element: <ProductList /> },
       { path: 'products/', element: <ProductList /> },
-      { path: 'cart', element: <Cart /> }
+      { path: 'cart', element: <Cart /> },
+      { path: 'wishlist', element: <WishPage /> }
     ]
 
   }

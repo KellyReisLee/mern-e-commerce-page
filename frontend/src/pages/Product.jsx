@@ -238,13 +238,13 @@ const Product = () => {
   }
 
   const handleClickAddCart = () => {
+
     if (handleValidValues()) {
       dispatch(
         cartActions.addProduct({ ...product, quantity, color, size })
       )
       setError('')
     }
-
   }
 
 
@@ -254,7 +254,6 @@ const Product = () => {
         <Anouncement />
         <Navbar />
         <Wrapper>
-
           {Object.keys(product).length === 0 ? (
             <ContainerSkeletonHorizontal>
               <Skeleton variant="rounded" sx={{ width: '50%', height: '100%', bgcolor: 'grey.400' }} />

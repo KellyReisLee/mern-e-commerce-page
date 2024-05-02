@@ -4,7 +4,8 @@ const initialState = {
   products: [],
   quantity: 0,
   total: 0,
-  wishList: []
+  wishList: [],
+  wishItem: []
 }
 
 const cartSlice = createSlice({
@@ -14,12 +15,12 @@ const cartSlice = createSlice({
     addProduct(state, action) {
       const newItem = action.payload;
       const itemExist = state.products.find((item) => item._id === newItem._id)
-      // state.quantity += 1
+      state.quantity += 1
 
       if (!itemExist) {
         state.products.push(
           {
-            id: newItem._id,
+            _id: newItem._id,
             categories: newItem.categories,
             color: newItem.color,
             createdAt: newItem.createdAt,
@@ -33,6 +34,24 @@ const cartSlice = createSlice({
             total: newItem.quantity * newItem.price
           }
         )
+      } else if (itemExist.color !== newItem.color || itemExist.size !== newItem.size) {
+        state.products.push(
+          {
+            _id: newItem._id,
+            categories: newItem.categories,
+            color: newItem.color,
+            createdAt: newItem.createdAt,
+            description: newItem.description,
+            image: newItem.image,
+            inStock: true,
+            price: newItem.price,
+            size: newItem.size,
+            title: newItem.title,
+            quantity: newItem.quantity,
+            total: newItem.quantity * newItem.price
+          }
+        )
+
       } else {
         itemExist.quantity++;
         itemExist.total = itemExist.quantity * itemExist.price
@@ -60,13 +79,31 @@ const cartSlice = createSlice({
       const newItem = action.payload;
       const findItem = state.wishList.find((item) => item._id === newItem._id)
 
-      if (!findItem) {
+      if (!findItem || newItem.color !== findItem.color || newItem.size !== findItem.size) {
         state.wishList.push(
           {
             ...newItem, quantity: 1, total: newItem.price
           }
         )
       }
+
+    },
+    addItemWish(state, action) {
+      const newItem = action.payload;
+      const findItem = state.wishList.find((item) => item._id === newItem._id)
+
+      if (!findItem) {
+        state.wishList.push(
+          {
+            ...newItem
+          }
+        )
+      }
+
+    },
+    removeItemWish(state, action) {
+      const newItem = action.payload;
+      state.wishList = state.wishList.filter((item) => item._id !== newItem._id)
 
     }
   }

@@ -30,6 +30,7 @@ const Products = ({ category, filters, sort }) => {
         console.log(res.data);
         setProducts(res.data)
       } catch (error) {
+        console.log(error);
 
       }
 

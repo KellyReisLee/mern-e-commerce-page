@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
 import { Link } from 'react-router-dom';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { mobile } from '../responsive'
+import { cartActions } from '../redux/cartSlice.js';
+import { useSelector, useDispatch } from 'react-redux';
 
 const Info = styled.div`
 
@@ -81,23 +83,79 @@ transition: all 0.5s ease;
   
 }
 
+`
 
+
+const IconIncluded = styled.div`
+width: 40px;
+height: 40px;
+border-radius: 50%;
+background-color: teal;
+color: white;
+display: flex;
+justify-content: center;
+align-items: center;
+transition: all 0.5s ease;
+
+&:hover{
+  background-color: white;
+  color: teal;
+  transform: scale(1.1);
+  cursor: pointer;
+  
+}
 
 `
 
+
 const Product = ({ item }) => {
+  const cart = useSelector(state => state.cart)
+  const dispatch = useDispatch()
+  const [wish, setWish] = useState();
+
+
+
+  console.log(cart);
+
+  useEffect(() => {
+    const itemIncluded = cart.wishList.find((product) => product._id === item._id);
+    if (itemIncluded) {
+      setWish(true)
+    }
+
+  }, [])
+
+
+  function addWishListItem(item) {
+    dispatch(cartActions.addItemWish({ ...item }))
+    setWish(true)
+  }
+
+  function removeWishListItem(item) {
+    dispatch(cartActions.removeItemWish({ ...item }))
+    setWish(false)
+  }
   return (
     <Container>
       <Circle />
       <Image src={item.image} />
       <Info>
-        <Icon>
-          <FavoriteBorderRoundedIcon />
-        </Icon>
+        {wish ? (
+          <IconIncluded >
+            <FavoriteBorderRoundedIcon onClick={() => removeWishListItem(item)} />
+          </IconIncluded>
+        ) : (
+          <Icon >
+            <FavoriteBorderRoundedIcon onClick={() => addWishListItem(item)} />
+          </Icon>
+
+        )}
+
         <Link to={`/product/${item._id}`}>
 
           <Icon>
-            <SearchRoundedIcon />
+            <SearchRoundedIcon
+            />
 
           </Icon>
         </Link>

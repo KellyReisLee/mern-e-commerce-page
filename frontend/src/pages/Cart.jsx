@@ -9,8 +9,9 @@ import Stripecheckout from 'react-stripe-checkout'
 import logo from '../assets/logo.png'
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { cartActions } from '../redux/cartSlice.js';
+
 
 
 const KEY = import.meta.env.VITE_STRIPE;
@@ -41,6 +42,7 @@ const Top = styled.div`
 
 const Add = styled.div``
 const Remove = styled.div``
+
 const TopButton = styled.button`
   padding: 10px;
   color: #444;
@@ -50,6 +52,12 @@ const TopButton = styled.button`
   background-color: ${(props) =>
     props.type === "filled" ? "#444" : "transparent"};
   color: ${(props) => props.type === "filled" ? "white" : '#444'};
+
+
+  & a:active, a:visited{
+  color: #444;
+  
+  }
 `;
 
 const TopTexts = styled.div`
@@ -61,6 +69,10 @@ const TopText = styled.span`
   text-decoration: underline;
   cursor: pointer;
   margin: 0px 10px;
+
+  & a:active,a:visited{
+    color: #444;
+  }
 `;
 
 const Bottom = styled.div`
@@ -217,11 +229,13 @@ const Cart = () => {
     return inicial + product.quantity
   }, 0)
 
+  // const quantityWishList = cart.wishList.reduce((inicial, item) =>{
+  //   return inicial + item.quantity
+  // })
 
-  const quantityItemsWishList = cart.wishList.reduce((inicial, item) => {
-    return inicial + item.quantity
-  }, 0)
-  console.log(quantityItemsWishList);
+
+
+
 
   useEffect(() => {
     const makeRequest = async () => {
@@ -278,10 +292,12 @@ const Cart = () => {
       <Wrapper>
         <Title>YOUR BAG</Title>
         <Top>
-          <TopButton>CONTINUE SHOPPING</TopButton>
+          <TopButton>
+            <Link to='/'>CONTINUE SHOPPING</Link>
+          </TopButton>
           <TopTexts>
             <TopText>Shopping Bag({quantityProducts})</TopText>
-            <TopText>Your Wishlist ({quantityItemsWishList})</TopText>
+            <TopText><Link to='/wishlist'>Your Wishlist ({cart.wishList.length})</Link></TopText>
           </TopTexts>
           <TopButton type="filled">CHECKOUT NOW</TopButton>
         </Top>
@@ -297,7 +313,7 @@ const Cart = () => {
                         <b>Product:</b> {item.title}
                       </ProductName>
                       <ProductId>
-                        <b>ID:</b> {item.id}
+                        <b>ID:</b> {item._id}
                       </ProductId>
                       <ProductColor color={item.color} />
                       <ProductSize>

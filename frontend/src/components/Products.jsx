@@ -73,7 +73,7 @@ const Products = ({ category, filters, sort }) => {
   }, [sort])
 
 
-  console.log(filterProducts);
+  
   return (
     <Container>
       {filterProducts.map((item) => (

@@ -21,19 +21,17 @@ router.post('/', verifyTokenAdmin, async (req, res) => {
 
 // UPDATE A PRODUCT:
 router.put('/:id', verifyTokenAdmin, async (req, res) => {
-  const { id } = req.params;
-  const data = req.body;
-
-
   try {
-    const updatedProduct = await Product.findByIdAndUpdate(id, {
-      data
-    }, { new: true })
-    res.status(200).json({ message: 'You saved a product.', updatedProduct })
-
-  } catch (error) {
-    res.status(500).json({ error: 'Could not update product.', error })
-
+    const updatedProduct = await Product.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedProduct);
+  } catch (err) {
+    res.status(500).json(err);
   }
 })
 

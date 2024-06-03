@@ -5,7 +5,8 @@ import Product from './Product'
 import { mobile } from '../responsive'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
-
+import {selectorWishList} from '../redux/wishSlice'
+import {useSelector} from 'react-redux'
 
 const Container = styled.div`
 padding: 20px;
@@ -21,13 +22,14 @@ ${mobile({ display: 'grid', gridTemplateColumns: 'repeat(1, 1fr)' })}
 const Products = ({ category, filters, sort }) => {
   const [products, setProducts] = useState([]);
   const [filterProducts, setFilterProducts] = useState([]);
-
+  const wishList = useSelector(selectorWishList)
+  console.log(wishList)
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const res = await axios.get(category ? `api/products?category=${category}` : 'api/products')
-        console.log(res.data);
+        //console.log(res.data);
         setProducts(res.data)
       } catch (error) {
         console.log(error);
@@ -66,9 +68,6 @@ const Products = ({ category, filters, sort }) => {
     } else {
       setFilterProducts((prev) => [...prev].sort((a, b) => b.price - a.price))
     }
-
-
-
 
   }, [sort])
 

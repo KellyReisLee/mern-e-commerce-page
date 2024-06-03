@@ -11,6 +11,11 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { cartActions } from '../redux/cartSlice.js';
+import {selectorTotalPrice,selectorCartProducts, selectProductsQuantity} from '../redux/cartSlice.js'
+import {selectorWishList} from '../redux/wishSlice.js'
+import {wishSliceActions} from '../redux/wishSlice.js'
+import {formatNumber} from '../utils/formatting.js'
+
 
 
 
@@ -213,36 +218,23 @@ const Cart = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const cart = useSelector(state => state.cart);
+  const wishListArray = useSelector(selectorWishList)
+  const totalQuantityProducts = useSelector(selectProductsQuantity)
+  const totalPrice = useSelector(selectorTotalPrice)
   const [stripeToken, setStripeToken] = useState(null);
   const onToken = (token) => {
     setStripeToken(token)
   }
 
-  //console.log(stripeToken);
+  
 
-  const totalCartProducts = cart.products.reduce((inicial, product) => {
-    return inicial + product.total
-
-  }, 0)
-
-  const quantityProducts = cart.products.reduce((inicial, product) => {
-    return inicial + product.quantity
-  }, 0)
-
-  // const quantityWishList = cart.wishList.reduce((inicial, item) =>{
-  //   return inicial + item.quantity
-  // })
-
-
-
-
-
+  
   useEffect(() => {
     const makeRequest = async () => {
       try {
         const res = await axios.post('api/checkout/payment', {
           tokenId: stripeToken.id,
-          amount: cart.total * 100,
+          amount: formatNumber(totalPrice) * 100,
 
         })
         // navigate to success page.
@@ -257,10 +249,10 @@ const Cart = () => {
     stripeToken && makeRequest()
   }, [stripeToken])
 
-  console.log(cart.wishList);
+  
 
   const handleClickRemoveCart = (item) => {
-    console.log(item);
+    
     dispatch(
       cartActions.removeProduct({ ...item })
     )
@@ -281,7 +273,7 @@ const Cart = () => {
 
   const handleAddWishList = (item) => {
     dispatch(
-      cartActions.addWishList({ ...item })
+      wishSliceActions.addWishList({ ...item })
     )
   }
 
@@ -296,8 +288,8 @@ const Cart = () => {
             <Link to='/'>CONTINUE SHOPPING</Link>
           </TopButton>
           <TopTexts>
-            <TopText>Shopping Bag({quantityProducts})</TopText>
-            <TopText><Link to='/wishlist'>Your Wishlist ({cart.wishList.length})</Link></TopText>
+            <TopText>Shopping Bag({totalQuantityProducts})</TopText>
+            <TopText><Link to='/wishlist'>Your Wishlist ({wishListArray.length})</Link></TopText>
           </TopTexts>
           <TopButton type="filled">CHECKOUT NOW</TopButton>
         </Top>
@@ -327,7 +319,7 @@ const Cart = () => {
                       <ProductAmount>{item.quantity}</ProductAmount>
                       <Remove onClick={() => handleClickRemoveCart(item)}>-</Remove>
                     </ProductAmountContainer>
-                    <ProductPrice>$ {item.price * item.quantity}</ProductPrice>
+                    <ProductPrice>$ {formatNumber(item.price * item.quantity)}</ProductPrice>
                   </PriceDetail>
 
                 </Product>
@@ -348,7 +340,7 @@ const Cart = () => {
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>$ {totalCartProducts}</SummaryItemPrice>
+              <SummaryItemPrice>$ { formatNumber(totalPrice)}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -360,15 +352,15 @@ const Cart = () => {
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ {totalCartProducts}</SummaryItemPrice>
+              <SummaryItemPrice>$ {formatNumber(totalPrice)}</SummaryItemPrice>
             </SummaryItem>
             <Stripecheckout
               name="Urban"
               image={logo}
               billingAddress
               shippingAddress
-              description={`Your total is $${cart.total}`}
-              amount={cart.total * 100}
+              description={`Your total is $${formatNumber(totalPrice)}`}
+              amount={formatNumber(totalPrice) * 100}
               token={onToken}
               stripeKey={KEY}
             >

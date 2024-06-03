@@ -110,5 +110,24 @@ const cartSlice = createSlice({
 })
 
 
+// ______ Selectors _____
+// Cart
+export const selectorCart = (state) => state.cart
+
+//Products Array
+export const selectorCartProducts = (state) => state.cart.products
+
+
+//Quantity of products inside cart
+export const selectProductsQuantity = (state) => {
+  return state.cart.products.reduce((acc, curr) => acc + curr.quantity, 0)
+}
+
+//Total price 
+export const selectorTotalPrice = (state) => {
+  return state.cart.products.reduce((acc, curr) => acc + (curr.quantity * curr.price), 0)
+
+}
+
 export const cartActions = cartSlice.actions
 export default cartSlice;

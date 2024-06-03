@@ -78,16 +78,14 @@ router.post('/login', async (req, res) => {
     }, process.env.JWT_SECRET, { expiresIn: '20m' })
 
     const userData = await userModel.findOne({ email }).select('-password')
+    const completeUserData = userData._doc;
 
 
-    res.status(201).json({ userData, accessToken })
+    res.status(201).json({ ...completeUserData, accessToken })
 
   } catch (err) {
     res.status(500).json(err)
   }
 })
-
-
-
 
 module.exports = router

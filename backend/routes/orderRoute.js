@@ -17,26 +17,31 @@ router.post("/", verifyToken, async (req, res) => {
 });
 
 
-// UPDATE A CART:
+// UPDATE A ORDER:
 router.put('/:id', verifyTokenAdmin, async (req, res) => {
-  const { id } = req.params;
 
 
   try {
-    const updatedOrder = await Order.findByIdAndUpdate(id, {
-      $set: req.body,
-    }, { new: true })
-    res.status(200).json({ message: 'Order updated.', updatedOrder })
+    const updatedOrder = await Order.findByIdAndUpdate(req.params.id,
+      {
+        $set: req.body,
+      },
+      { new: true });
+
+    if (!updatedOrder) {
+      return res.status(500).json({ error: 'Could not update order.Hello' });
+    }
+    res.status(200).json({ message: 'Order updated.', updatedOrder });
 
   } catch (error) {
-    res.status(500).json({ error: 'Could not update to order.', error })
-
+    res.status(500).json({ message: 'Could not update order.', error });
   }
-})
+});
 
 
 
-// DELETE CART:
+
+// DELETE ORDER:
 router.delete('/:id', verifyTokenAdmin, async (req, res) => {
   try {
     const order = await Order.findByIdAndDelete(req.params.id)
@@ -54,9 +59,15 @@ router.delete('/:id', verifyTokenAdmin, async (req, res) => {
 
 //GET USER ORDER:
 router.get("/find/:userId", verifyTokenAndAuthorization, async (req, res) => {
+
   try {
-    const order = await Order.findOne({ userId: req.body.userId });
-    res.status(200).json(order);
+    const order = await Order.findOne({ userId: req.params.userId });
+
+    if (!order) {
+      return res.status(404).json({ error: 'Could not find order.' })
+    }
+    const finalData = order._doc
+    res.status(200).json({ message: 'User found!', ...finalData });
   } catch (error) {
     res.status(500).json({ error: 'Could not find order.', error });
   }
@@ -67,6 +78,7 @@ router.get("/find/:userId", verifyTokenAndAuthorization, async (req, res) => {
 router.get('/', verifyTokenAdmin, async (req, res) => {
   try {
     const allOrders = await Order.find();
+
     res.status(200).json(allOrders)
   } catch (error) {
     res.status(500).json({ error: 'Could not find orders.', error })

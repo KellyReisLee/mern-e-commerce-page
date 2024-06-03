@@ -115,7 +115,7 @@ const Product = ({ item }) => {
 
 
 
-  console.log(cart);
+  //console.log(cart);
 
   useEffect(() => {
     const itemIncluded = cart.wishList.find((product) => product._id === item._id);

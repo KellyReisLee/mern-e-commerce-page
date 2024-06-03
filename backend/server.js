@@ -1,8 +1,7 @@
 const express = require('express')
 const app = express();
 const mongoose = require('mongoose')
-const dotenv = require('dotenv')
-dotenv.config()
+require('dotenv').config()
 const userRoutes = require('./routes/userRoute')
 const authRoutes = require('./routes/authRoute')
 const productRoutes = require('./routes/productRoute')
@@ -26,6 +25,7 @@ app.use("/api/checkout", stripeRoute);
 
 
 
+// é uma promise que pode retornar acerto ou error, por isso deve ser tratada.
 mongoose.connect(process.env.MONGO_URL).then(() => {
   console.log('Database connected!!!');
 }).catch((error) => {

@@ -13,8 +13,8 @@ import WishPage from './pages/WishPage.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import axios from 'axios'
 import { Provider } from 'react-redux'
-import store from './redux/store.js'
-
+import { PersistGate } from "redux-persist/integration/react";
+import store, { persistor } from "./redux/store.js";
 
 
 
@@ -34,8 +34,8 @@ const router = createBrowserRouter([
       { path: 'product/:id', element: <Product /> },
       { path: 'products/:category', element: <ProductList /> },
       { path: 'products/', element: <ProductList /> },
-      { path: 'cart', element: <Cart /> },
-      { path: 'wishlist', element: <WishPage /> }
+      { path: 'cart/:id', element: <Cart /> },
+      { path: 'wishlist/:id', element: <WishPage /> }
     ]
 
   }
@@ -44,9 +44,11 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
       <RouterProvider router={router}>
         <App />
       </RouterProvider>
+      </PersistGate>
     </Provider>
   </React.StrictMode>,
 )

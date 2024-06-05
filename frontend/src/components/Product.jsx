@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { mobile } from '../responsive'
-import { cartActions } from '../redux/cartSlice.js';
+import { wishSliceActions, selectorWishList } from '../redux/wishSlice.js';
+
 import { useSelector, useDispatch } from 'react-redux';
 
 const Info = styled.div`
@@ -109,16 +110,12 @@ transition: all 0.5s ease;
 
 
 const Product = ({ item }) => {
-  const cart = useSelector(state => state.cart)
+  const wishList = useSelector(selectorWishList)
   const dispatch = useDispatch()
   const [wish, setWish] = useState();
 
-
-
-  //console.log(cart);
-
   useEffect(() => {
-    const itemIncluded = cart.wishList.find((product) => product._id === item._id);
+    const itemIncluded = wishList.wishList.find((product) => product._id === item._id);
     if (itemIncluded) {
       setWish(true)
     }
@@ -126,13 +123,13 @@ const Product = ({ item }) => {
   }, [])
 
 
-  function addWishListItem(item) {
-    dispatch(cartActions.addItemWish({ ...item }))
+  function handleAddWishList(item) {
+    dispatch(wishSliceActions.addWishList({ ...item }))
     setWish(true)
   }
 
-  function removeWishListItem(item) {
-    dispatch(cartActions.removeItemWish({ ...item }))
+  function handleRemoveWishList(item) {
+    dispatch(wishSliceActions.removeItemWish({ ...item }))
     setWish(false)
   }
   return (
@@ -142,11 +139,11 @@ const Product = ({ item }) => {
       <Info>
         {wish ? (
           <IconIncluded >
-            <FavoriteBorderRoundedIcon onClick={() => removeWishListItem(item)} />
+            <FavoriteBorderRoundedIcon onClick={() => handleRemoveWishList(item)} />
           </IconIncluded>
         ) : (
           <Icon >
-            <FavoriteBorderRoundedIcon onClick={() => addWishListItem(item)} />
+            <FavoriteBorderRoundedIcon onClick={() => handleAddWishList(item)} />
           </Icon>
 
         )}

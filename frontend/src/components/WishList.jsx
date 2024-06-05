@@ -4,27 +4,24 @@ import { currencyFormatter } from '../utils/formatting.js'
 import { useSelector, useDispatch } from 'react-redux'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { teal } from '@mui/material/colors';
-import { cartActions } from '../redux/cartSlice.js';
+import { selectorWishListArray, wishSliceActions} from '../redux/wishSlice.js'
 import { mobile } from '../responsive.js';
 
 
 
 const Container = styled.div`
-
 min-height: 10rem;
-margin: 1.6rem auto;
-padding: 0 5rem;
+margin: 2rem 0;
+padding: 1rem 3rem;
 display: grid;
-grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-/* grid-template-columns: repeat(4, 1fr); */
+/* grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); */
+grid-template-columns: repeat(4, 1fr);
 /* grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); */
 gap: 1rem;
 ${mobile({ padding: '20px' })}
 `
 
 const Boxes = styled.div`
-width: 270px;
-height: 340px;
 display: flex;
 justify-content: space-between;
 flex-direction: column;
@@ -36,6 +33,7 @@ background-color: #FEFAF6;
 position: relative;
 
 
+
 &:hover{
   transform: scale(1.05);
   box-shadow: 32px 25px 34px -7px rgba(166,161,161,0.29);
@@ -45,6 +43,9 @@ position: relative;
 `
 
 const ImageBox = styled.div`
+width: 100%;
+padding: 0rem;
+margin-top: 3rem;
 object-fit: cover;
 display: flex;
 justify-content: center;
@@ -52,7 +53,7 @@ justify-content: center;
 `
 
 const Image = styled.img`
-width: 60%;
+width: 70%;
 border-radius: 10px;
 filter: grayscale(50%);
 
@@ -60,7 +61,7 @@ filter: grayscale(50%);
 `
 
 const TextBox = styled.div`
-padding: 0 ;
+padding: 0 0.6rem ;
 `
 
 const Title = styled.h2`
@@ -81,7 +82,6 @@ padding: 1rem;
 background-color: teal;
 color: white;
 border: none;
-margin-top: 1rem;
 border-radius: 4px;
 justify-self: end;
 `
@@ -90,7 +90,6 @@ const Message = styled.p`
 width: 100%;
 background-color: gray;
 padding: 1rem;
-margin-top: 0.9rem;
 color: aliceblue;
 font-weight: 600;
 font-size: 1.2rem;
@@ -123,30 +122,30 @@ const WishList = () => {
   const [wishData, setWishData] = useState([])
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const cartData = useSelector(state => state.cart);
-  const dispatch = useDispatch()
-  console.log(cartData.wishList);
+  const dispatch = useDispatch();
+  const wishListArray = useSelector(selectorWishListArray)
+
 
   useEffect(() => {
-    setWishData(cartData.wishList)
-  }, [wishData, cartData.wishList])
+    setWishData(wishListArray)
+  }, [wishData, wishListArray])
 
-  console.log(wishData);
+ 
 
-  function deleteWishItem(item) {
-    dispatch(cartActions.removeItemWish({ ...item }))
+  function handleDeleteItem(item) {
+    dispatch(wishSliceActions.removeItemWish({ ...item }))
 
   }
 
   return (
     <>
-      {wishData && wishData.length === 0 && !error && <Message>Could not find data.</Message>}
+      {wishListArray && wishListArray.length === 0 && !error && <Message>Could not find data.</Message>}
       {loading && !error && <Message>Loading...</Message>}
       <Container>
-        {wishData?.map((item) => (
-          <>
-            <Boxes>
-              <IconBox onClick={() => deleteWishItem(item)}>
+        {wishListArray?.map((item) => (
+          
+            <Boxes key={item.name}>
+              <IconBox onClick={() => handleDeleteItem(item)}>
                 <FavoriteIcon sx={{ color: teal[700], fontSize: '36px' }} />
               </IconBox>
               <ImageBox>
@@ -158,7 +157,7 @@ const WishList = () => {
               </TextBox>
               <Price>{currencyFormatter.format(item.price)}</Price>
             </Boxes>
-          </>
+          
         ))}
 
       </Container>

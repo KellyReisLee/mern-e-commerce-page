@@ -3,32 +3,34 @@ import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import { mobile } from '../responsive'
-import { useSelector, useDispatch } from 'react-redux';
-import Stripecheckout from 'react-stripe-checkout'
-import logo from '../assets/logo.png'
+import { mobile } from "../responsive";
+import { useSelector, useDispatch } from "react-redux";
+import Stripecheckout from "react-stripe-checkout";
+import logo from "../assets/logo.png";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import { cartActions } from '../redux/cartSlice.js';
-import {selectorTotalPrice,selectorCartProducts, selectProductsQuantity} from '../redux/cartSlice.js'
-import {selectorWishList} from '../redux/wishSlice.js'
-import {wishSliceActions} from '../redux/wishSlice.js'
-import {formatNumber} from '../utils/formatting.js'
-
-
-
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { cartActions } from "../redux/cartSlice.js";
+import {
+  selectorTotalPrice,
+  selectorCartProducts,
+  selectProductsQuantity,
+} from "../redux/cartSlice.js";
+import {
+  selectorWishList,
+  selectProductsQuantityWish,
+  wishSliceActions,
+} from "../redux/wishSlice.js";
+import { formatNumber } from "../utils/formatting.js";
+import { selectorCurrentUser } from "../redux/userSlice.js";
 
 const KEY = import.meta.env.VITE_STRIPE;
 const Container = styled.div``;
 
 const Wrapper = styled.div`
-
   padding: 20px;
   margin-top: 1rem;
-  ${mobile({ padding: '10px', height: '100%' })}
-
- 
+  ${mobile({ padding: "10px", height: "100%" })}
 `;
 
 const Title = styled.h1`
@@ -44,38 +46,35 @@ const Top = styled.div`
   padding: 20px;
 `;
 
-
-const Add = styled.div``
-const Remove = styled.div``
+const Add = styled.div``;
+const Remove = styled.div``;
 
 const TopButton = styled.button`
   padding: 10px;
   color: #444;
   font-weight: 600;
   cursor: pointer;
-  border: ${(props) => props.type === "filled" ? "none" : '1px solid #444'};
+  border: ${(props) => (props.type === "filled" ? "none" : "1px solid #444")};
   background-color: ${(props) =>
     props.type === "filled" ? "#444" : "transparent"};
-  color: ${(props) => props.type === "filled" ? "white" : '#444'};
+  color: ${(props) => (props.type === "filled" ? "white" : "#444")};
 
-
-  & a:active, a:visited{
-  color: #444;
-  
+  & a:active,
+  a:visited {
+    color: #444;
   }
 `;
 
 const TopTexts = styled.div`
-  ${mobile({ display: 'none' })}
-
-  
+  ${mobile({ display: "none" })}
 `;
 const TopText = styled.span`
   text-decoration: underline;
   cursor: pointer;
   margin: 0px 10px;
 
-  & a:active,a:visited{
+  & a:active,
+  a:visited {
     color: #444;
   }
 `;
@@ -83,10 +82,7 @@ const TopText = styled.span`
 const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
-  ${mobile({ flexDirection: 'column' })}
-
- 
-
+  ${mobile({ flexDirection: "column" })}
 `;
 
 const Info = styled.div`
@@ -96,14 +92,12 @@ const Info = styled.div`
 const Product = styled.div`
   display: flex;
   justify-content: space-between;
-  ${mobile({ flexDirection: 'column' })}
-  
+  ${mobile({ flexDirection: "column" })}
 `;
 
 const ProductDetail = styled.div`
   flex: 2;
   display: flex;
-  
 `;
 
 const Image = styled.img`
@@ -136,27 +130,25 @@ const PriceDetail = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  ${mobile({ flexDirection: 'row', justifyContent: 'space-around' })}
+  ${mobile({ flexDirection: "row", justifyContent: "space-around" })}
 `;
 
 const ProductAmountContainer = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
-  ${mobile({ margin: '5px 0' })}
-  
+  ${mobile({ margin: "5px 0" })}
 `;
 
 const ProductAmount = styled.div`
   font-size: 24px;
   margin: 5px;
-  //${mobile({ margin: '5px 15px' })}
+  //${mobile({ margin: "5px 15px" })}
 `;
 
 const ProductPrice = styled.div`
   font-size: 30px;
   font-weight: 200;
- 
 `;
 
 const Hr = styled.hr`
@@ -198,84 +190,93 @@ const Button = styled.button`
 `;
 
 const ProductsButton = styled.div`
-width: 100%;
-display: flex;
-justify-content: end;
-align-items: end;
-gap: 1rem;
-padding-right: 0.7rem;
-margin-bottom: 1rem;
-`
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  align-items: end;
+  gap: 1rem;
+  padding-right: 0.7rem;
+  margin-bottom: 1rem;
+`;
 const ButtonProduct = styled.button`
-padding: 0.4rem;
-border-radius: 3px;
-border: 1px solid gray;
-cursor: pointer;
-
-`
+  padding: 0.4rem;
+  border-radius: 3px;
+  border: 1px solid gray;
+  cursor: pointer;
+`;
 
 const Cart = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const cart = useSelector(state => state.cart);
-  const wishListArray = useSelector(selectorWishList)
-  const totalQuantityProducts = useSelector(selectProductsQuantity)
-  const totalPrice = useSelector(selectorTotalPrice)
+  const cart = useSelector((state) => state.cart);
+  const currentUser = useSelector(selectorCurrentUser);
+  const wishListArray = useSelector(selectorWishList);
+  const totalQuantityProducts = useSelector(selectProductsQuantity);
+  const totalQuantityWishList = useSelector(selectProductsQuantityWish);
+  const totalPrice = useSelector(selectorTotalPrice);
   const [stripeToken, setStripeToken] = useState(null);
+  const { id } = useParams();
+ 
+  console.log(cart);
+
   const onToken = (token) => {
-    setStripeToken(token)
-  }
+    setStripeToken(token);
+  };
 
+  const cartItems = cart.products.map((product) => ({
+    productId: product._id,
+    quantity: product.quantity,
+  }));
+
+ 
+  console.log(cartItems);
   
 
-  
+  useEffect(() => {
+    const changingCart = async () => {
+      try {
+        const response = await axios.put(`api/carts/${id}`, cartItems);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    changingCart();
+  }, [cartItems]);
+
   useEffect(() => {
     const makeRequest = async () => {
       try {
-        const res = await axios.post('api/checkout/payment', {
+        const res = await axios.post("api/checkout/payment", {
           tokenId: stripeToken.id,
           amount: formatNumber(totalPrice) * 100,
-
-        })
+        });
         // navigate to success page.
         if (res) {
-          navigate('/')
+          navigate("/");
         }
       } catch (error) {
         console.log(error);
-
       }
-    }
-    stripeToken && makeRequest()
-  }, [stripeToken])
-
-  
+    };
+    stripeToken && makeRequest();
+  }, [stripeToken]);
 
   const handleClickRemoveCart = (item) => {
-    
-    dispatch(
-      cartActions.removeProduct({ ...item })
-    )
-  }
+    dispatch(cartActions.removeProduct({ ...item }));
+  };
 
   const handleRemoveComplete = (item) => {
-    dispatch(
-      cartActions.removeProductComplete({ ...item })
-    )
-  }
-
+    dispatch(cartActions.removeProductComplete({ ...item }));
+  };
 
   const handleClickAddCart = (item) => {
-    dispatch(
-      cartActions.addProduct({ ...item })
-    )
-  }
+    dispatch(cartActions.addProduct({ ...item }));
+  };
 
   const handleAddWishList = (item) => {
-    dispatch(
-      wishSliceActions.addWishList({ ...item })
-    )
-  }
+    dispatch(wishSliceActions.addWishList({ ...item }));
+  };
 
   return (
     <Container>
@@ -285,11 +286,15 @@ const Cart = () => {
         <Title>YOUR BAG</Title>
         <Top>
           <TopButton>
-            <Link to='/'>CONTINUE SHOPPING</Link>
+            <Link to="/">CONTINUE SHOPPING</Link>
           </TopButton>
           <TopTexts>
             <TopText>Shopping Bag({totalQuantityProducts})</TopText>
-            <TopText><Link to='/wishlist'>Your Wishlist ({wishListArray.length})</Link></TopText>
+            <TopText>
+              <Link to={`/wishlist/${currentUser._id}`}>
+                Your Wishlist ({totalQuantityWishList})
+              </Link>
+            </TopText>
           </TopTexts>
           <TopButton type="filled">CHECKOUT NOW</TopButton>
         </Top>
@@ -317,30 +322,33 @@ const Cart = () => {
                     <ProductAmountContainer>
                       <Add onClick={() => handleClickAddCart(item)}>+</Add>
                       <ProductAmount>{item.quantity}</ProductAmount>
-                      <Remove onClick={() => handleClickRemoveCart(item)}>-</Remove>
+                      <Remove onClick={() => handleClickRemoveCart(item)}>
+                        -
+                      </Remove>
                     </ProductAmountContainer>
-                    <ProductPrice>$ {formatNumber(item.price * item.quantity)}</ProductPrice>
+                    <ProductPrice>
+                      $ {formatNumber(item.price * item.quantity)}
+                    </ProductPrice>
                   </PriceDetail>
-
                 </Product>
                 <ProductsButton>
-
-                  <ButtonProduct onClick={() => handleRemoveComplete(item)}>Remove from Cart</ButtonProduct>
-                  <ButtonProduct onClick={() => handleAddWishList(item)}>Add to Wishlist</ButtonProduct>
+                  <ButtonProduct onClick={() => handleRemoveComplete(item)}>
+                    Remove from Cart
+                  </ButtonProduct>
+                  <ButtonProduct onClick={() => handleAddWishList(item)}>
+                    Add to Wishlist
+                  </ButtonProduct>
                 </ProductsButton>
 
                 <Hr />
-
               </>
             ))}
-
-
           </Info>
           <Summary>
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>$ { formatNumber(totalPrice)}</SummaryItemPrice>
+              <SummaryItemPrice>$ {formatNumber(totalPrice)}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -362,11 +370,9 @@ const Cart = () => {
               description={`Your total is $${formatNumber(totalPrice)}`}
               amount={formatNumber(totalPrice) * 100}
               token={onToken}
-              stripeKey={KEY}
-            >
+              stripeKey={KEY}>
               <Button>CHECKOUT NOW</Button>
             </Stripecheckout>
-
           </Summary>
         </Bottom>
       </Wrapper>

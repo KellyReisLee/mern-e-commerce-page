@@ -4,8 +4,7 @@ const initialState = {
   products: [],
   quantity: 0,
   total: 0,
-  wishList: [],
-  wishItem: []
+
 }
 
 const cartSlice = createSlice({
@@ -120,12 +119,12 @@ export const selectorCartProducts = (state) => state.cart.products
 
 //Quantity of products inside cart
 export const selectProductsQuantity = (state) => {
-  return state.cart.products.reduce((acc, curr) => acc + curr.quantity, 0)
+  return state.cart.products?.reduce((acc, curr) => acc + curr.quantity, 0)
 }
 
 //Total price 
 export const selectorTotalPrice = (state) => {
-  return state.cart.products.reduce((acc, curr) => acc + (curr.quantity * curr.price), 0)
+  return state.cart.products?.reduce((acc, curr) => acc + (curr.quantity * curr.price), 0)
 
 }
 

@@ -46,12 +46,16 @@ const wishSlice = createSlice({
 
 
 
-//All wishList
-export const selectorWishList = (state) => state.wishList.wishList;
+// wishList 
+export const selectorWishList = (state) => state.wishList;
+
+// wishList array 
+export const selectorWishListArray = (state) => state.wishList.wishList;
+
 
 //Quantity of products inside wishList
 export const selectProductsQuantityWish = (state) => {
-  return state.cart.products.reduce((acc, curr) => acc + curr.quantity, 0)
+  return state.wishList.wishList.reduce((acc, curr) => acc + curr.quantity, 0)
 }
 
 export const wishSliceActions = wishSlice.actions

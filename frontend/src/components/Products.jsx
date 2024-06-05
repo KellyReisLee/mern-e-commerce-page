@@ -23,7 +23,7 @@ const Products = ({ category, filters, sort }) => {
   const [products, setProducts] = useState([]);
   const [filterProducts, setFilterProducts] = useState([]);
   const wishList = useSelector(selectorWishList)
-  console.log(wishList)
+  
 
   useEffect(() => {
     const fetchProducts = async () => {

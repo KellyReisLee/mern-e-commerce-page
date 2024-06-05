@@ -55,6 +55,7 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
+
   try {
 
     if (!email || !password) {
@@ -75,17 +76,33 @@ router.post('/login', async (req, res) => {
 
     const accessToken = jwt.sign({
       id: user._id, isAdmin: user.isAdmin
-    }, process.env.JWT_SECRET, { expiresIn: '20m' })
+    }, process.env.JWT_SECRET, { expiresIn: '1h' })
+
+
 
     const userData = await userModel.findOne({ email }).select('-password')
     const completeUserData = userData._doc;
 
+    res.status(201).json({ ...completeUserData, accessToken, message: 'User Logged In Successfully!' })
 
-    res.status(201).json({ ...completeUserData, accessToken })
-
-  } catch (err) {
-    res.status(500).json(err)
+  } catch (error) {
+    res.status(500).json(error)
   }
 })
 
+
+
+
+// LOGOUT
+router.get('/logout', async (req, res) => {
+
+  try {
+    res.clearCookie()
+    return res.status(200).json({ message: 'Successfully Logout' });
+  } catch (error) {
+    res.status(500).json({ error: 'Could not logout.' })
+  }
+
+
+})
 module.exports = router

@@ -1,12 +1,12 @@
 import React from 'react'
-import popularProducts from '../helpers/products'
 import styled from 'styled-components'
 import Product from './Product'
 import { mobile } from '../responsive'
-import axios from 'axios'
 import { useState, useEffect } from 'react'
-import {selectorWishList} from '../redux/wishSlice'
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
+import { fetchAllProductsData } from '../redux/productAPICalls'
+import { selectAllProducts } from '../redux/productSlice'
+
 
 const Container = styled.div`
 padding: 20px;
@@ -20,44 +20,36 @@ ${mobile({ display: 'grid', gridTemplateColumns: 'repeat(1, 1fr)' })}
 
 
 const Products = ({ category, filters, sort }) => {
-  const [products, setProducts] = useState([]);
   const [filterProducts, setFilterProducts] = useState([]);
-  const wishList = useSelector(selectorWishList)
+  const productsArray =  useSelector(selectAllProducts)
+  const dispatch = useDispatch()
+  console.log(productsArray)
   
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await axios.get(category ? `api/products?category=${category}` : 'api/products')
-        //console.log(res.data);
-        setProducts(res.data)
-      } catch (error) {
-        console.log(error);
-
-      }
-
-    }
-    fetchProducts()
+    dispatch(fetchAllProductsData(category))
+    
   }, [category])
+  
 
 
 
   useEffect(() => {
     if (category) {
       setFilterProducts(
-        products.filter((item) =>
+        productsArray.filter((item) =>
           Object.entries(filters).every(([key, value]) =>
             item[key].includes(value)
           )
         )
       );
     } else {
-      setFilterProducts(products)
+      setFilterProducts(productsArray)
     }
 
 
 
-  }, [category, filters, products])
+  }, [category, filters, productsArray])
 
 
   useEffect(() => {
@@ -70,8 +62,6 @@ const Products = ({ category, filters, sort }) => {
     }
 
   }, [sort])
-
-
   
   return (
     <Container>

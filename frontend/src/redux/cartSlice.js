@@ -11,6 +11,11 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState: initialState,
   reducers: {
+    replaceCart(state, action) {
+      const productsArray = action.payload;
+      state.products = productsArray
+
+    },
     addProduct(state, action) {
       const newItem = action.payload;
       const itemExist = state.products.find((item) => item._id === newItem._id)
@@ -87,24 +92,7 @@ const cartSlice = createSlice({
       }
 
     },
-    addItemWish(state, action) {
-      const newItem = action.payload;
-      const findItem = state.wishList.find((item) => item._id === newItem._id)
 
-      if (!findItem) {
-        state.wishList.push(
-          {
-            ...newItem
-          }
-        )
-      }
-
-    },
-    removeItemWish(state, action) {
-      const newItem = action.payload;
-      state.wishList = state.wishList.filter((item) => item._id !== newItem._id)
-
-    }
   }
 })
 

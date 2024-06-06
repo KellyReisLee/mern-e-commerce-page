@@ -1,118 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import styled from 'styled-components'
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
 import { Link } from 'react-router-dom';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import { mobile } from '../responsive'
 import { wishSliceActions, selectorWishList } from '../redux/wishSlice.js';
-
+import { selectorCurrentUser } from '../redux/userSlice.js';
+import {Info, Container, Circle, Icon, IconIncluded, Image} from './Product.style.jsx'
 import { useSelector, useDispatch } from 'react-redux';
-
-const Info = styled.div`
-
-opacity: 0;
-width: 100%;
-height: 100%;
-top: 0;
-left: 0;
-position: absolute;
-background-color: rgba(0, 0, 0, 0.2);
-z-index: 3;
-display: flex;
-justify-content: center;
-align-items: center;
-gap: 0.8rem;
-transition: all 0.5s ease;
-${mobile({ display: 'flex', padding: '0px' })}
-`
-
-const Container = styled.div`
-display: flex;
-width: 100%;
-height: 350px;
-display: flex;
-align-items: center;
-justify-content: center;
-background-color: #CCD3CA;
-position: relative;
-cursor: pointer;
-border-radius: 10px;
-
-&:hover ${Info}{
-  opacity: 1;
-}
-
-&:hover{
-  box-shadow: 32px 25px 34px -7px rgba(166,161,161,0.29);
--webkit-box-shadow: 32px 25px 34px -7px rgba(166,161,161,0.29);
--moz-box-shadow: 32px 25px 34px -7px rgba(166,161,161,0.29);
-}
-
-`
-
-const Circle = styled.div`
-width: 200px;
-height: 200px;
-border-radius: 50%;
-background-color: white;
-position: absolute;
-`
-const Image = styled.img`
-height: 75%;
-z-index: 1;
-border-radius: 10px;
-
-`
-
-const Icon = styled.div`
-width: 40px;
-height: 40px;
-border-radius: 50%;
-background-color: white;
-color: teal;
-display: flex;
-justify-content: center;
-align-items: center;
-transition: all 0.5s ease;
-
-&:hover{
-  background-color: teal;
-  color: white;
-  transform: scale(1.1);
-  cursor: pointer;
-  
-}
-
-`
-
-
-const IconIncluded = styled.div`
-width: 40px;
-height: 40px;
-border-radius: 50%;
-background-color: teal;
-color: white;
-display: flex;
-justify-content: center;
-align-items: center;
-transition: all 0.5s ease;
-
-&:hover{
-  background-color: white;
-  color: teal;
-  transform: scale(1.1);
-  cursor: pointer;
-  
-}
-
-`
-
 
 const Product = ({ item }) => {
   const wishList = useSelector(selectorWishList)
   const dispatch = useDispatch()
   const [wish, setWish] = useState();
+  const currentUser = useSelector(selectorCurrentUser)
+  
 
   useEffect(() => {
     const itemIncluded = wishList.wishList.find((product) => product._id === item._id);

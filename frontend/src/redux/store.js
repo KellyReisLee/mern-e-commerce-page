@@ -6,18 +6,20 @@ import cartSlice from './cartSlice.js';
 import uiSlice from './uiSlice.js';
 import wishSlice from './wishSlice.js';
 import userSlice from './userSlice.js';
+import productSlice from './productSlice.js';
 
 const rootReducer = combineReducers({
   cart: cartSlice.reducer,
   ui: uiSlice.reducer,
   wishList: wishSlice.reducer,
   user: userSlice.reducer,
+  products: productSlice.reducer
 });
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['cart', 'wishList', 'user'], // definir quais reducers devem ser persistidos
+  whitelist: ['cart', 'wishList', 'user', 'products'], // definir quais reducers devem ser persistidos
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

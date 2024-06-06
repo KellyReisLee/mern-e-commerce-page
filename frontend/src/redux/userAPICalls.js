@@ -1,6 +1,8 @@
-import { loginStart, loginFailure, loginSuccess, loginSuccessMessage } from '../redux/userSlice'
+import { loginStart, loginFailure, loginSuccess, loginSuccessMessage } from './userSlice'
 import axios from 'axios'
 
+
+//Login User.
 export const login = async (dispatch, user, navigate) => {
   dispatch(loginStart());
 
@@ -18,10 +20,16 @@ export const login = async (dispatch, user, navigate) => {
 
   } catch (error) {
     dispatch(loginFailure(error.response?.data?.error));
+
+    setTimeout(() => {
+      dispatch(loginFailure(null))
+    }, 3000);
+
   }
 }
 
 
+//Logout User
 export const logout = async (dispatch, persistor, navigate) => {
   dispatch(loginStart());
 

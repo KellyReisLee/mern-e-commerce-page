@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
-import { login } from "../redux/apiCalls";
+import { login } from "../redux/userAPICalls";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectorIsFetching,

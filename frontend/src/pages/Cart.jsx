@@ -37,8 +37,11 @@ const Cart = () => {
   const totalPrice = useSelector(selectorTotalPrice);
   const [stripeToken, setStripeToken] = useState(null);
   const { id } = useParams();
+const token = currentUser.accessToken;
  
   console.log(cart);
+  console.log(token);
+
 
   const onToken = (token) => {
     setStripeToken(token);
@@ -50,20 +53,38 @@ const Cart = () => {
   }));
 
  
-  console.log(cartItems);
-  
+  //console.log(cartItems);
+
+
 
   useEffect(() => {
     const changingCart = async () => {
+      if (!token) {
+        console.log('No token found');
+        return;
+      }
+
       try {
-        const response = await axios.put(`api/carts/${id}`, cartItems);
+        const response = await axios.put(
+          `/api/carts/${id}`,
+          { products: cartItems }, // Ensure this matches the expected payload structure
+          {
+            headers: {
+              'Authorization': `Bearer ${token}` // Include the token in the Authorization header
+            }
+          }
+        );
+        console.log(response.data);
       } catch (error) {
-        console.log(error);
+        console.error('Error updating cart:', error.response ? error.response.data : error.message);
       }
     };
 
-    changingCart();
+    if (cartItems.length > 0) {
+      changingCart();
+    }
   }, [cartItems]);
+
 
   useEffect(() => {
     const makeRequest = async () => {

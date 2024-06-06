@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
 import Badge from "@mui/material/Badge";
@@ -12,8 +12,10 @@ import Avatar from "../assets/avatar.png";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { logout } from "../redux/userSlice";
-import {persistor} from '../redux/store'
+//import {persistor} from '../redux/store'
+
 import axios  from "axios";
+import { fetchCartData } from "../redux/cartAPICalls";
 
 const Container = styled.div`
   height: 80px;
@@ -211,11 +213,25 @@ const Navbar = () => {
   console.log(currentUser);
   const navigate = useNavigate()
 
+  //const token = currentUser.accessToken;
+ 
+
+
+//Getting Cart Data:
+  useEffect(() =>{
+    if(currentUser){
+      dispatch(fetchCartData(currentUser.accessToken, currentUser._id))
+    }
+  }, [dispatch])
+
+  
+  
+
   const handleLogout = async () => {
     try {
       await axios.get('api/auth/logout');
       dispatch(logout());
-      persistor.purge();
+      // persistor.purge();
       setDropDownBtn(false)
       navigate('/'); // Redireciona para a página de login após o logout
     } catch (error) {

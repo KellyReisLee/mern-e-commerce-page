@@ -5,11 +5,14 @@ import Anouncement from '../components/Announcement'
 import NewsLetter from '../components/NewsLetter'
 import Footer from '../components/Footer'
 import { mobile } from '../responsive'
-import { useParams } from 'react-router-dom'
-import axios from 'axios'
-import { Skeleton } from '@mui/material'
-import { useDispatch } from 'react-redux'
+import { Link, useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { cartActions } from '../redux/cartSlice.js';
+import { selectorCurrentUser } from '../redux/userSlice.js'
+import { Skeleton } from '@mui/material'
+import {sendCartData, fetchCartData} from '../redux/cartAPICalls.js'
+import { fetchProductData } from '../redux/productAPICalls.js'
+import {selectProduct} from '../redux/productSlice.js'
 
 
 
@@ -27,11 +30,12 @@ flex: 1;
 
 `
 const Image = styled.img`
-width: 100%;
-height: 90vh;
-object-fit: cover;
-${mobile({ width: '100%', height: '40vh', })}
-`
+  width: 100%;
+  height: 90vh;
+  object-fit: cover;
+  ${mobile({ height: "40vh" })}
+`;
+
 const InfoContainer = styled.div`
 flex: 1;
 padding: 0 50px;
@@ -138,7 +142,10 @@ margin-left: 0.3rem;
 font-weight: 500;
 `;
 
-const Button = styled.button`
+const StyledButton = styled(Link)`
+text-align: center;
+color: #444;
+text-decoration: none;
 padding: 15px;
 flex: 2;
 border: 1px solid teal;
@@ -185,31 +192,33 @@ font-size: 15px;
 `
 
 const Product = () => {
-  const { id } = useParams();
   const [product, setProduct] = useState({})
   const [quantity, setQuantity] = useState(1)
   const [color, setColor] = useState("")
   const [size, setSize] = useState("")
   const [error, setError] = useState('')
   const dispatch = useDispatch()
+  const cart = useSelector((state) => state.cart);
+  const currentUser = useSelector(selectorCurrentUser);
+  const token = currentUser.accessToken;
+  const { id } = useParams();
+  const productIndividual = useSelector(selectProduct)
+  console.log(productIndividual)
+
+
+
+  useEffect(() =>{
+    dispatch(fetchCartData(token, currentUser._id))
+  }, [dispatch])
+  
 
 
 
   useEffect(() => {
-    const getProduct = async () => {
-      try {
-        const res = await axios.get(`api/products/find/${id}`)
-        console.log(res.data);
-        setProduct(res.data)
-
-      } catch (error) {
-        console.log(error);
-
-      }
-    }
-    getProduct()
+  
+    dispatch(fetchProductData(id))
   }, [id])
-  console.log(id);
+  console.log(product);
   console.log(color, size, quantity);
 
 
@@ -237,6 +246,15 @@ const Product = () => {
     return true
   }
 
+
+ 
+
+  const cartItems = cart.products.map((product) => ({
+    productId: product._id,
+    quantity: product.quantity,
+  }));
+
+
   const handleClickAddCart = () => {
 
     if (handleValidValues()) {
@@ -245,7 +263,12 @@ const Product = () => {
       )
       setError('')
     }
+
+    //dispatch(sendCartData(cartItems, token, currentUser._id))
+
   }
+
+  
 
 
   return (
@@ -254,7 +277,7 @@ const Product = () => {
         <Anouncement />
         <Navbar />
         <Wrapper>
-          {Object.keys(product).length === 0 ? (
+          {Object.keys(productIndividual).length === 0 ? (
             <ContainerSkeletonHorizontal>
               <Skeleton variant="rounded" sx={{ width: '50%', height: '100%', bgcolor: 'grey.400' }} />
               <ContainerSkeletonVertical  >
@@ -269,12 +292,12 @@ const Product = () => {
           ) : (
             <>
               <ImgContainer>
-                <Image src={product.image} />
+                <Image src={productIndividual.image} />
               </ImgContainer>
               <InfoContainer>
-                <Title>{product.title}</Title>
-                <Description>{product.description}</Description>
-                <Price>{product.price}</Price>
+                <Title>{productIndividual.title}</Title>
+                <Description>{productIndividual.description}</Description>
+                <Price>{productIndividual.price}</Price>
                 {error && <ErrorContainer>
                   <Error>{error}</Error>
                 </ErrorContainer>}
@@ -282,7 +305,7 @@ const Product = () => {
                   {/* color */}
                   <Filter>
                     <FilterTitle>Color: </FilterTitle>
-                    {product.color?.map((c) => (
+                    {productIndividual.color?.map((c) => (
                       <FilterColor onClick={() => setColor(c)} key={c} color={c} />
                     ))}
 
@@ -292,7 +315,7 @@ const Product = () => {
                     <FilterTitle>Size: </FilterTitle>
                     <FilterSize onChange={(e) => setSize(e.target.value)} defaultValue="Size" >
                       <FilterSizeOption ></FilterSizeOption>
-                      {product.size?.map((s) => (
+                      {productIndividual.size?.map((s) => (
                         <FilterSizeOption key={s}>{s}</FilterSizeOption>
                       ))}
 
@@ -307,7 +330,7 @@ const Product = () => {
                     <Amount>{quantity}</Amount>
                     <Add onClick={() => hanndleQuantity('inc')} >+</Add>
                   </AmountContainer>
-                  <Button onClick={handleClickAddCart}>ADD TO CART</Button>
+                  <StyledButton  to={`/cart/${currentUser._id}`} onClick={handleClickAddCart}>ADD TO CART</StyledButton>
                 </AddContainer>
               </InfoContainer>
             </>

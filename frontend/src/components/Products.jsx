@@ -15,15 +15,13 @@ overflow: hidden;
 grid-template-columns: repeat(2, 1fr);
 gap: 1.5rem ;
 ${mobile({ display: 'grid', gridTemplateColumns: 'repeat(1, 1fr)' })}
-
 `
-
 
 const Products = ({ category, filters, sort }) => {
   const [filterProducts, setFilterProducts] = useState([]);
   const productsArray =  useSelector(selectAllProducts)
   const dispatch = useDispatch()
-  console.log(productsArray)
+  //console.log(productsArray)
   
 
   useEffect(() => {
@@ -46,9 +44,6 @@ const Products = ({ category, filters, sort }) => {
     } else {
       setFilterProducts(productsArray)
     }
-
-
-
   }, [category, filters, productsArray])
 
 

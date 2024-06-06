@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar'
 import Anouncement from '../components/Announcement'
 import NewsLetter from '../components/NewsLetter'
 import Footer from '../components/Footer'
-import { mobile } from '../responsive'
+
 import { Link, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { cartActions } from '../redux/cartSlice.js';
@@ -13,186 +13,13 @@ import { Skeleton } from '@mui/material'
 import {sendCartData, fetchCartData} from '../redux/cartAPICalls.js'
 import { fetchProductData } from '../redux/productAPICalls.js'
 import {selectProduct} from '../redux/productSlice.js'
+import {Container, Wrapper, Image, ImgContainer, InfoContainer, Title, Description, Price, Filter, FilterColor, FilterContainer, FilterSize, FilterSizeOption, FilterTitle, Add, AddContainer, Amount, AmountContainer, StyledButton, ContainerSkeletonHorizontal, ContainerSkeletonVertical, Error, ErrorContainer, Remove} from './Product.style.jsx'
 
 
 
-
-const Container = styled.div``
-
-const Wrapper = styled.div`
-padding: 50px;
-display: flex;
-${mobile({ padding: '10px 5px', flexDirection: 'column', })}
-
-`
-const ImgContainer = styled.div`
-flex: 1;
-
-`
-const Image = styled.img`
-  width: 100%;
-  height: 90vh;
-  object-fit: cover;
-  ${mobile({ height: "40vh" })}
-`;
-
-const InfoContainer = styled.div`
-flex: 1;
-padding: 0 50px;
-
-${mobile({ padding: '20px' })}
-
-`
-
-
-const Title = styled.h1`
-font-weight: 200;
-`
-const Description = styled.p`
-margin: 20px 0px;
-`
-
-
-const Price = styled.span`
-font-weight: 100;
-font-size: 50px;
-
-
-`
-
-
-const FilterContainer = styled.div`
-margin: 10px 0px;
-display: flex;
-justify-content: space-between;
-${mobile({ width: '100%', })}
-
-`
-const Filter = styled.div`
-margin-top: 10px;
-display: flex;
-justify-content: flex-start;
-${mobile({ margin: '0', })}
-`
-const FilterTitle = styled.div`
-font-size: 20px;
-font-weight: 200;
-margin-right: 3px;
-
-`
-const FilterColor = styled.div`
-width: 20px;
-height: 20px;
-border-radius: 50%;
-background-color: ${(props) => props.color};
-margin: 0px 3px;
-cursor: pointer;
-`
-const FilterSize = styled.select`
-margin-left: 5px;
-padding: 2px 3px;
-cursor: pointer;
-
-
-`
-const FilterSizeOption = styled.option`
-  `
-const AddContainer = styled.div`
- width: 100%;
-  display: flex;
-  align-items: center;
-  margin-top: 3rem;
-  gap: 1rem;
-  ${mobile({ width: '100%', margin: '0', gap: '0.1rem' })}
-
- 
-`;
-
-const AmountContainer = styled.div`
- display: flex;
- flex: 1;
-  align-items: center;
-  font-weight: 700;
-  ${mobile({ width: '100%', flexDirection: 'column', margin: '0', })}
-
-
-
-`;
-const Remove = styled.option`
-font-size: 2rem;
-margin-right: 0.3rem;
-font-weight: 300;
-`;
-const Amount = styled.span`
-width: 32px;
-height: 32px;
-border-radius: 10px;
-border: 1px solid teal;
-display: flex;
-align-items: center;
-justify-content: center;
-margin: 0px 5px;
-
-
-
-`;
-const Add = styled.span`
-font-size: 1.2rem;
-margin-left: 0.3rem;
-font-weight: 500;
-`;
-
-const StyledButton = styled(Link)`
-text-align: center;
-color: #444;
-text-decoration: none;
-padding: 15px;
-flex: 2;
-border: 1px solid teal;
-background-color: white;
-cursor: pointer;
-font-weight: 500;
-${mobile({ padding: '5px 15px', })}
-
-&:hover{
-      background-color: #f8f4f4;
-  }
-`;
-
-const ContainerSkeletonHorizontal = styled.div`
-width: 100%;
-height: 30vh;
-display: flex;
-gap: 1rem;
-${mobile({ padding: '5px 15px', flexDirection: 'column' })}
-
-`
-const ContainerSkeletonVertical = styled.div`
-width: 100%;
-height: 50vh;
-display: flex;
-flex-direction: column;
-gap: 1rem;
-`
-
-const ErrorContainer = styled.div`
-width: 100%;
-background-color: red;
-margin-top: 1rem;
-padding: 0.6rem 0;
-text-align: center;
-color: aliceblue;
-border-radius: 5px;
-font-weight: 500;
-letter-spacing: 1px;
-`
-
-const Error = styled.p`
-font-size: 15px;
-`
 
 const Product = () => {
-  const [product, setProduct] = useState({})
+  //const [product, setProduct] = useState({})
   const [quantity, setQuantity] = useState(1)
   const [color, setColor] = useState("")
   const [size, setSize] = useState("")
@@ -207,18 +34,15 @@ const Product = () => {
 
 
 
-  useEffect(() =>{
-    dispatch(fetchCartData(token, currentUser._id))
-  }, [dispatch])
+  // useEffect(() =>{
+  //   dispatch(fetchCartData(token, currentUser._id))
+  // }, [dispatch])
   
 
-
-
-  useEffect(() => {
-  
-    dispatch(fetchProductData(id))
-  }, [id])
-  console.log(product);
+  // useEffect(() => {
+  //   dispatch(fetchProductData(id))
+  // }, [id])
+  //console.log(product);
   console.log(color, size, quantity);
 
 
@@ -247,25 +71,23 @@ const Product = () => {
   }
 
 
- 
 
   const cartItems = cart.products.map((product) => ({
-    productId: product._id,
+    productId: productIndividual._id,
     quantity: product.quantity,
   }));
+  //console.log(productIndividual._id)
 
-
+console.log(cart.products)
   const handleClickAddCart = () => {
 
     if (handleValidValues()) {
       dispatch(
-        cartActions.addProduct({ ...product, quantity, color, size })
+        cartActions.addProduct({ productIndividual, quantity, color, size })
       )
       setError('')
     }
-
-    //dispatch(sendCartData(cartItems, token, currentUser._id))
-
+    dispatch(sendCartData(cartItems, token, currentUser._id))
   }
 
   

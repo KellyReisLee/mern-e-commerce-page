@@ -22,7 +22,41 @@ import {
 } from "../redux/wishSlice.js";
 import { formatNumber } from "../utils/formatting.js";
 import { selectorCurrentUser } from "../redux/userSlice.js";
-import {Container, Wrapper, Title, Top, TopButton, Add, Remove, TopText, TopTexts, Bottom, Info, Product, ProductAmount, Image, Details, ProductColor, ProductDetail, ProductId, ProductName, ProductPrice, ProductSize, ProductAmountContainer, ProductsButton, PriceDetail, Hr, Summary, SummaryItem, SummaryItemPrice, SummaryItemText, SummaryTitle, Button, ButtonProduct, } from './Cart.styled.jsx'
+import {
+  Container,
+  Wrapper,
+  Title,
+  Top,
+  TopButton,
+  Add,
+  Remove,
+  TopText,
+  TopTexts,
+  Bottom,
+  Info,
+  Product,
+  ProductAmount,
+  Image,
+  Details,
+  ProductColor,
+  ProductDetail,
+  ProductId,
+  ProductName,
+  ProductPrice,
+  ProductSize,
+  ProductAmountContainer,
+  ProductsButton,
+  PriceDetail,
+  Hr,
+  Summary,
+  SummaryItem,
+  SummaryItemPrice,
+  SummaryItemText,
+  SummaryTitle,
+  Button,
+  ButtonProduct,
+} from "./Cart.styled.jsx";
+import { selectProduct } from "../redux/productSlice.js";
 
 const KEY = import.meta.env.VITE_STRIPE;
 
@@ -37,30 +71,28 @@ const Cart = () => {
   const totalPrice = useSelector(selectorTotalPrice);
   const [stripeToken, setStripeToken] = useState(null);
   const { id } = useParams();
-const token = currentUser.accessToken;
- 
-  console.log(cart);
-  console.log(token);
+  const productIndividual = useSelector(selectProduct);
+  const token = currentUser.accessToken;
 
+  //console.log(cart);
+  //console.log(token);
 
   const onToken = (token) => {
     setStripeToken(token);
   };
 
   const cartItems = cart.products.map((product) => ({
-    productId: product._id,
+    productId: productIndividual._id,
     quantity: product.quantity,
   }));
 
- 
-  //console.log(cartItems);
-
-
+  console.log(cart.products);
+  console.log(productIndividual._id)
 
   useEffect(() => {
     const changingCart = async () => {
       if (!token) {
-        console.log('No token found');
+        console.log("No token found");
         return;
       }
 
@@ -70,13 +102,17 @@ const token = currentUser.accessToken;
           { products: cartItems }, // Ensure this matches the expected payload structure
           {
             headers: {
-              'Authorization': `Bearer ${token}` // Include the token in the Authorization header
-            }
+              Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+            },
           }
         );
+
         console.log(response.data);
       } catch (error) {
-        console.error('Error updating cart:', error.response ? error.response.data : error.message);
+        console.error(
+          "Error updating cart:",
+          error.response ? error.response.data : error.message
+        );
       }
     };
 
@@ -84,7 +120,6 @@ const token = currentUser.accessToken;
       changingCart();
     }
   }, [cartItems]);
-
 
   useEffect(() => {
     const makeRequest = async () => {
@@ -152,7 +187,7 @@ const token = currentUser.accessToken;
                         <b>Product:</b> {item.title}
                       </ProductName>
                       <ProductId>
-                        <b>ID:</b> {item._id}
+                        <b>ID:</b> {item.productId}
                       </ProductId>
                       <ProductColor color={item.color} />
                       <ProductSize>

@@ -20,7 +20,7 @@ export const fetchCartData = (token, id) => { // Adicionar id e token como parâ
       if (response.status < 200 || response.status >= 300) {
         throw new Error('Fetching cart data failed.');
       }
-      console.log(response); // Ajustar para acessar os dados corretos da resposta
+      // console.log(response); // Ajustar para acessar os dados corretos da resposta
       return response.data;
     };
 

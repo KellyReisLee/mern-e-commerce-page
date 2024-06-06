@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { act } from 'react';
 
 const initialState = {
   allProducts: [],
@@ -9,6 +10,11 @@ const productSlice = createSlice({
   name: 'products',
   initialState: initialState,
   reducers: {
+    resetProductIndividual(state) {
+
+      state.productIndividual = {}
+
+    },
     fetchProductIndividual(state, action) {
       const product = action.payload;
       state.productIndividual = product

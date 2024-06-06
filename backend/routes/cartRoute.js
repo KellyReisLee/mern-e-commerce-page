@@ -31,28 +31,18 @@ router.post("/:id", verifyToken, async (req, res) => {
 // UPDATE A CART:
 router.put('/:id', verifyTokenAndAuthorization, async (req, res) => {
   const { id } = req.params;
+  console.log(id)
   const { products } = req.body; // Destructure products from req.body
 
   try {
-    // Find the cart by user ID
-    let cart = await cartModel.findOne({ userId: id });
+    // Find and update the cart by user ID, or create a new one if it doesn't exist
+    const updatedCart = await cartModel.findOneAndUpdate(
+      { userId: id },
+      { $set: { products } },
+      { new: true, upsert: true, runValidators: true } // Options: return the updated document, create if not exists, run schema validators
+    );
 
-    if (!cart) {
-      // If no cart exists, create a new one
-      cart = new cartModel({ userId: id, products });
-      await cart.save();
-      return res.status(201).json({ message: 'Cart created successfully.', cart });
-    }
-
-    // Log the cart and products for debugging
-    console.log('Existing cart:', cart);
-    console.log('Updated products:', products);
-
-    // Update the cart with new products
-    cart.products = products;
-    await cart.save();
-
-    res.status(200).json({ message: 'Cart Updated!', cart });
+    res.status(200).json({ message: 'Cart Updated!', cart: updatedCart });
   } catch (err) {
     // Log the error for debugging
     console.log('Validation error:', err);
@@ -78,8 +68,10 @@ router.delete('/:id', verifyTokenAndAuthorization, async (req, res) => {
 
 //GET USER CART
 router.get("/find/:userId", verifyTokenAdmin, async (req, res) => {
+  const { userId } = req.params
+  console.log(userId)
   try {
-    const cart = await cartModel.findOne({ userId: req.body.userId });
+    const cart = await cartModel.findOne({ userId });
     res.status(200).json(cart);
   } catch (error) {
     res.status(500).json({ error: 'Could not find cart.', error });

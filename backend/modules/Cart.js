@@ -8,7 +8,7 @@ const productSchema = new mongoose.Schema({
 const cartSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
   products: [productSchema]
-}, { timestamps: true });
+}, { new: true });
 
 const cartModel = mongoose.model('Cart', cartSchema);
 

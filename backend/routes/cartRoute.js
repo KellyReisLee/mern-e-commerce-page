@@ -31,7 +31,6 @@ router.post("/:id", verifyToken, async (req, res) => {
 // UPDATE A CART:
 router.put('/:id', verifyTokenAndAuthorization, async (req, res) => {
   const { id } = req.params;
-  console.log(id)
   const { products } = req.body; // Destructure products from req.body
 
   try {
@@ -69,7 +68,7 @@ router.delete('/:id', verifyTokenAndAuthorization, async (req, res) => {
 //GET USER CART
 router.get("/find/:userId", verifyTokenAdmin, async (req, res) => {
   const { userId } = req.params
-  console.log(userId)
+  //console.log(userId)
   try {
     const cart = await cartModel.findOne({ userId });
     res.status(200).json(cart);

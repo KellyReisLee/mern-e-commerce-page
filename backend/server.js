@@ -25,7 +25,7 @@ app.use("/api/checkout", stripeRoute);
 
 
 
-// retorna uma promise que pode retornar acerto ou error, por isso deve ser tratada.
+// é uma promise que pode retornar acerto ou error, por isso deve ser tratada.
 mongoose.connect(process.env.MONGO_URL).then(() => {
   console.log('Database connected!!!');
 }).catch((error) => {

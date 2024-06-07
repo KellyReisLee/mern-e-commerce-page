@@ -55,38 +55,41 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
+
   try {
+
     if (!email || !password) {
-      return res.status(400).json({ error: 'All fields are required!' });
+      return res.status(500).json({ error: 'All fields are required!' })
     }
 
     const user = await userModel.findOne({ email });
 
     if (!user) {
-      return res.status(401).json({ error: 'Email not found. Try again!' });
+      return res.status(401).json({ error: 'Email not found. Try again!' })
     }
-
-    const hashedPassword = CryptoJS.AES.decrypt(user.password, process.env.SECRET);
+    const hashedPassword = CryptoJS.AES.decrypt(user.password, process.env.SECRET)
     const passwordUser = hashedPassword.toString(CryptoJS.enc.Utf8);
 
     if (passwordUser !== password) {
-      return res.status(401).json({ error: 'Password is wrong. Try again!' });
+      return res.status(401).json({ error: 'Password is wrong. Try again!' })
     }
 
-    const accessToken = jwt.sign(
-      { id: user._id, isAdmin: user.isAdmin },
-      process.env.JWT_SECRET,
-      { expiresIn: '1h' }
-    );
+    const accessToken = jwt.sign({
+      id: user._id, isAdmin: user.isAdmin
+    }, process.env.JWT_SECRET, { expiresIn: '1h' })
 
-    const userData = await userModel.findOne({ email }).select('-password');
+
+
+    const userData = await userModel.findOne({ email }).select('-password')
     const completeUserData = userData._doc;
 
-    res.status(200).json({ ...completeUserData, accessToken, message: 'User Logged In Successfully!' });
+    res.status(201).json({ ...completeUserData, accessToken, message: 'User Logged In Successfully!' })
+
   } catch (error) {
-    res.status(500).json(error);
+    res.status(500).json(error)
   }
-});
+})
+
 
 
 
